@@ -1,0 +1,119 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+html, body{
+    height: 100%;
+    background-color: #f1f1f1 ;
+}
+
+header{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+    gap: 15px;
+    position: fixed;
+    top: 0;
+}
+
+header .main-title{
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 50px;
+    margin-left: 20px;
+}
+header .main-title i{
+    font-size: 40px;
+    cursor: pointer;
+}
+header .main-title .imgLogo{
+    width: 100px;
+}
+
+header .main-profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-right: 20px;
+    font-family: 'Times New Roman', Times, serif;
+}
+header .main-profile img{
+    width: 40px;
+}
+
+
+aside{
+    width: 80px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    background-color: #fd6100;
+    transition: 300ms;
+    z-index: 100 !important;
+    top: 70px;
+}
+
+.sidebar ul {
+    width: 90%;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: start;
+    font-size: 25px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.sidebar ul span{
+    font-size: 20px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+    z-index: 2 !important;
+}
+
+.sidebar ul li a{
+    text-decoration: none;
+    color: white;
+    transition: 300ms;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar ul a:hover{
+    color: gray;
+    transition: 300ms;
+
+}
+.sidebar ul li {
+    transition: 300ms;
+    width: 100%;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    margin-right: 15px;
+}
+.sidebar ul li:hover{
+    color: gray;
+    transition: 300ms;
+
+}
+
+.sidebar ul li .text {
+    display: none;
+}
+
+.sidebar.expanded {
+    width: 250px;
+}
+
+.sidebar.expanded ul li .text {
+    display: inline;
+}

@@ -1,0 +1,60 @@
+.main-turmas{
+    font-family: 'Times New Roman', Times, serif;
+    display: flex;
+    margin-top: 100px;
+    margin-left: 120px;
+    flex-direction: column;
+    justify-content: start;
+    gap: 30px;
+}
+
+.main-turmas h1{
+    font-weight: bold;
+}
+
+.div-turmas{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    align-items: center;
+    gap: 15px;
+}
+
+.turma-exemple{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color: white;
+    border-radius: 20px;
+    padding: 15px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.turma-exemple h2{
+    font-weight: bold;
+    color: gray;
+}
+
+.turma-exemple ul{
+    width: 100%;
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+    padding-left: 0;
+
+}
+
+.turma-exemple ul li{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-left: 0;
+    padding-left: 0;
+}
+
+.turma-exemple a{
+    color: #fd6100;
+    font-size: 25px;
+    text-align: end;
+}
