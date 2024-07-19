@@ -18,7 +18,7 @@
     </header>
 
     <main>
-        <form action="home.php" method="POST">
+        <form action="validaLogin.php" method="POST">
             <div class="login-title">
                 <i width="50" class="bi bi-lock-fill"></i>
                 <h2>Login</h2>
