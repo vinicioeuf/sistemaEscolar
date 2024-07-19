@@ -25,7 +25,7 @@
             </div>
 
             <div class="user-main">
-                <h6>Usuário:</h6>
+                <h6>Matrícula:</h6>
                 <input type="number" name="matricula">
             </div>
 
