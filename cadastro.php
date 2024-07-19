@@ -1,4 +1,4 @@
-<form action="#" method="post">
+<form action="validaCadastro.php" method="post" enctype="multipart/form-data">
     <label for="Nome">Nome:</label>
     <input type="text" name="nome" id="" required>
     <br>
@@ -47,29 +47,26 @@
     <input type="text" name="situacao" id="" required>
     <br>
     <label for="">Foto:</label>
-    <input type="file" name="foto" id="" required>
+    <input type="file" name="imagem" id="" required>
     <br>
     <input type="hidden" name="senha" id="senha">
     <label for="">CPF</label>
     <input type="text" name="cpf" id="cpf" required>
     <br>
     
-    <button type="button" id="definirSenha">Matricular Aluno</button>
+    <button type="submit" id="definirSenha" name="submit" class="submit">Matricular Aluno</button>
     <script>
         var definirSenha = document.getElementById("definirSenha");
         var cpfField = document.getElementById("cpf");
         var senhaField = document.getElementById("senha");
+        var form = document.querySelector("form");
 
         definirSenha.addEventListener("click", function(event) {
-            
-            event.preventDefault();
-            
             var cpf = cpfField.value;
             if (cpf) {
                 senhaField.value = "it." + cpf;
             }
-            
-           
+            form.submit();
         });
     </script>
 </form>
