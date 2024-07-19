@@ -58,7 +58,7 @@ try {
                 $caminhoArquivo = $response['secure_url'];
 
                 // Insere o produto no banco de dados
-                $query = "INSERT INTO alunos (nome, email, matricula, cpf, ingresso, turma, idade, situacao, senha, imagem, NOW())) VALUES (:nome, :email, :matricula, :cpf, :ingresso, :turma, :idade, :situacao, :senha, :imagem, NOW())";
+                $query = "INSERT INTO alunos (nome, email, matricula, cpf, ingresso, turma, idade, situacao, senha, imagem) VALUES (:nome, :email, :matricula, :cpf, :ingresso, :turma, :idade, :situacao, :senha, :imagem)";
                 $stmt = $con->prepare($query);
                 $stmt->bindParam(':nome', $nome);
                 $stmt->bindParam(':email', $email);

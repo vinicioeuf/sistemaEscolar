@@ -5,9 +5,11 @@
     <label for="">Gerar número de matrícula:</label>
     <input type="button" id="gerarmatricula" value="Gerar" required/>
     <p id="matricula" name="nMatricula"></p>
+    <input type="hidden" name="nMatricula" id="hiddenMatricula" value="">
     <script>
         var gerarmatricula = document.getElementById("gerarmatricula");
         var matriculaElement = document.getElementById("matricula");
+        var hiddenMatricula = document.getElementById("hiddenMatricula");
 
         gerarmatricula.addEventListener("click", function() {
             // Prefixo fixo
@@ -24,6 +26,9 @@
             
             // Exibir a matrícula gerada
             matriculaElement.textContent = "Matrícula: " + matricula;
+
+            // Definir o valor do campo hidden com a matrícula gerada
+            hiddenMatricula.value = matricula;
         });
     </script>
     <br>
