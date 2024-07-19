@@ -25,8 +25,9 @@ try {
         $turma = addslashes($_POST['turma']);
         $idade = addslashes($_POST['idade']);
         $situacao = addslashes($_POST['situacao']);
-        $senha = addslashes($_POST['senha']);
         $cpf = addslashes($_POST['cpf']);
+        $senha = addslashes($_POST['senha']);
+        $senhaSafe = password_hash($senha, PASSWORD_DEFAULT);
         // Verifica se não houve erro no upload
         if ($imagem['error'] == UPLOAD_ERR_OK) {
             // Move o arquivo para a pasta desejada
@@ -68,7 +69,7 @@ try {
                 $stmt->bindParam(':turma', $turma);
                 $stmt->bindParam(':idade', $idade);
                 $stmt->bindParam(':situacao', $situacao);
-                $stmt->bindParam(':senha', $senha);
+                $stmt->bindParam(':senha', $senhaSafe);
                 $stmt->bindParam(':imagem', $caminhoArquivo);
                 $stmt->execute();
             } else {

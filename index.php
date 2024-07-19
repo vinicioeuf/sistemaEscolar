@@ -26,12 +26,12 @@
 
             <div class="user-main">
                 <h6>Usuário:</h6>
-                <input type="number">
+                <input type="number" name="matricula">
             </div>
 
             <div class="password-main position-relative">
                 <h6>Senha:</h6>
-                <input id="password" type="password">
+                <input id="password" type="password" name="senha">
                 <i id="togglePassword" class="bi bi-eye-slash-fill position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;"></i>
             </div>
 
