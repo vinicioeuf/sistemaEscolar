@@ -1,6 +1,6 @@
 <?php
 
-require "conexao.php";
+include "conexao.php";
 require_once "vendor/autoload.php";
 use Cloudinary\Configuration\Configuration;
 use Cloudinary\Api\Upload\UploadApi;
