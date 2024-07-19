@@ -1,0 +1,4 @@
+
+vendor/monolog/monolog/
+vendor/guzzlehttp/psr7/
+vendor/ralouphie/getallheaders/
