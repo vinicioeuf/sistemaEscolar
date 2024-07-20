@@ -9,30 +9,39 @@ try {
         $matricula = trim($_POST['matricula']);
         $senha = trim($_POST['senha']);
 
-        // Consulta o banco de dados para obter a senha armazenada
-        $query = "SELECT senha FROM alunos WHERE matricula = :matricula";
-        $stmt = $con->prepare($query);
-        $stmt->bindParam(':matricula', $matricula);
-        $stmt->execute();
+        function verificarLogin($con, $matricula, $senha, $tabela) {
+            $query = "SELECT senha FROM $tabela WHERE matricula = :matricula";
+            $stmt = $con->prepare($query);
+            $stmt->bindParam(':matricula', $matricula);
+            $stmt->execute();
 
-        if ($stmt->rowCount() > 0) {
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-            $senhaArmazenada = $resultado['senha'];
+            if ($stmt->rowCount() > 0) {
+                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+                $senhaArmazenada = $resultado['senha'];
 
-            // Debug
-            echo "Senha Inserida: " . htmlspecialchars($senha) . "<br>";
-            echo "Senha Armazenada: " . htmlspecialchars($senhaArmazenada) . "<br>";
+                echo "Senha Inserida: " . htmlspecialchars($senha) . "<br>";
+                echo "Senha Armazenada: " . htmlspecialchars($senhaArmazenada) . "<br>";
 
-            if (password_verify($senha, $senhaArmazenada)) {
-                // Senha correta, usuário autenticado
-                Header("Location: boletim.php");
-                exit();
+                if (password_verify($senha, $senhaArmazenada)) {
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                // Senha incorreta
-                echo "matricula ou senha incorretos.";
+                return false;
             }
+        }
+
+        $loginValido = verificarLogin($con, $matricula, $senha, 'alunos');
+
+        if (!$loginValido) {
+            $loginValido = verificarLogin($con, $matricula, $senha, 'professores');
+        }
+
+        if ($loginValido) {
+            Header("Location: boletim.php");
+            exit();
         } else {
-            // Usuário não encontrado
             echo "matricula ou senha incorretos.";
         }
     } else {
