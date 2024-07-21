@@ -161,12 +161,36 @@ require("conexao.php");
                 <th>Ver mais</th>
             </tr>
         </thead>
+        <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userModalLabel">Informações do Aluno</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Código:</strong> <span id="modalCodigo"></span></p>
+                    <p><strong>Nome:</strong> <span id="modalNome"></span></p>
+                    <p><strong>E-mail:</strong> <span id="modalEmail"></span></p>
+                    <p><strong>Situação:</strong> <span id="modalSituacao"></span></p>
+                    <p><strong>Turma:</strong> <span id="modalTurma"></span></p>
+                    <p><strong>Nº Matricula:</strong> <span id="modalMatricula"></span></p>
+                    <p><strong>Data de Ingresso:</strong> <span id="modalDataIngresso"></span></p>
+                    <p><strong>Idade:</strong> <span id="modalIdade"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
         <tbody>
         <?php
             while ($dados = $stmt->fetch(PDO::FETCH_ASSOC)) {
             ?>
             <tr data-code="<?php echo $dados['id']; ?>">
-                <td data-label="Código"><?php echo $dados['id']; ?></td>
+                <td data-label="Código"><?php echo "00" + $dados['id']; ?></td>
                 <td data-label="Nome"><?php echo $dados['nome']; ?></td>
                 <td data-label="E-mail"><?php echo $dados['email']; ?></td>
                 <td data-label="Situação"><?php echo $dados['situacao']; ?></td>
@@ -175,7 +199,45 @@ require("conexao.php");
                 <td data-label="Data de ingresso"><?php echo $dados['ingresso']; ?></td>
                 <td data-label="Idade"><?php echo $dados['idade']; ?></td>
                 <td data-label="Ver mais">
-                    <button type="button" class="btn btn-secondary"><i class="bi bi-search"></i></button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#verificar<?php echo $dados['id'];?>" data-bs-whatever="<?php echo $dados['nome'];?>">
+                    <i class="bi bi-search"></i>
+                </button>
+                <div class="modal fade" id="verificar<?php echo $dados['id'];?>" tabindex="-1" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="TituloModalCentralizado"><?php echo "Aluno: ".$dados['nome'];?></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <?php 
+                                $aprovacao = "SELECT * FROM notas WHERE id_aluno='".$dados['id']."'";
+                                $results = $con->query($aprovacao);                                    
+                                $ver = $results->fetch(PDO::FETCH_ASSOC);
+
+                                echo "Turma: ". $ver['turma'];
+                                echo "Disciplina: ". $ver['disciplina'];
+                                echo "<br>Nota 1: " . $ver['b1'];
+                                echo "<br>Nota 2: " . $ver['b2'];
+                                echo "<br>Nota 3: " . $ver['b3'];
+                                echo "<br>Nota 4: " . $ver['b4'];
+                                echo "<br>Recuperação 1: " . $ver['r1'];
+                                echo "<br>Recuperação 2: " . $ver['r2'];
+                                echo "<br>Recuperação 3: " . $ver['r3'];
+                                echo "<br>Recuperação 4: " . $ver['r4'];
+                                echo "<br>Recuperação Final: " . $ver['rf'];
+                                echo "<br>Média final: " . $ver['mf'];
+                                echo "<br>Situação: " . $ver['situacao'];
+                                echo "<hr>";
+                                ?>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta2/js/bootstrap.min.js"></script>
+
                 </td>
             </tr>
 

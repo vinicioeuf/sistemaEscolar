@@ -1,3 +1,12 @@
+<?php
+    require("conexao.php");
+
+    $con = Conexao::getInstance();
+    $sql = "SELECT * FROM turmas";
+    $busca = $con->query($sql);
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,16 +26,18 @@
 
     <div class="main-turmas">
         <h1>Início > Minhas Turmas</h1>
-        
+        <a href="criarTurma.php"><button type="submit">Criar turma</button></a>
         <div class="div-turmas">
-
+        <?php while($turma = $busca->fetch(PDO::FETCH_ASSOC)){$ano = date('Y', strtotime($turma['criacao']));?>
             <div class="turma-exemple">
-                <h1>3 ANO, A</h1>
-                <h2>Manhã</h2>
+                <h1><?php echo $turma["nome"];?></h1>
+                <h2><?php echo $turma["turno"];?></h2>
                 <ul>
-                    <li><span>Ano:</span><span>2024</span></li>
-                    <li><span>N Alunos:</span><span>24</span></li>
-                    <li><span>Criado em:</span><span>02/02/2024</span></li>
+                    
+                    <li><span>Ano:</span><span><?php echo $ano;?></span></li>
+                    <li><span>N Alunos:</span><span><?php echo $turma["qntalunos"];?></span></li>
+                    <li><span>Professor :</span><span><?php echo $turma["professor"];?></span></li>
+                    <?php }?>
                 </ul>
                 <a href="">Detalhar</a>
             </div>

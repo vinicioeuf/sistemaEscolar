@@ -1,3 +1,11 @@
+<?php
+    require("conexao.php");
+
+    $con = Conexao::getInstance();
+    $sql = "SELECT * FROM professores";
+    $busca = $con->query($sql);
+?>
+
 <form action="validaCadastro.php" method="post" enctype="multipart/form-data">
     <label for="Nome">Nome:</label>
     <input type="text" name="nome" id="" required>
@@ -40,9 +48,9 @@
     <br>
     <select name="turma" id="" required>
         <option value="none" selected disabled>Escolher turma</option>
-        <option value="1A">1A</option>
-        <option value="1B">1B</option>
-        <option value="1C">1C</option>
+        <?php while($buscar = $busca->fetch(PDO::FETCH_ASSOC)){?>
+        <option value="<?php echo $turma["nome"]; ?>"><?php echo $turma["nome"]; ?></option>
+        <?php }?>
     </select>
     <br>
     <label for="Idade">Idade:</label>
