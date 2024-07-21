@@ -23,7 +23,7 @@ try {
                 echo "Senha Armazenada: " . htmlspecialchars($senhaArmazenada) . "<br>";
 
                 if (password_verify($senha, $senhaArmazenada)) {
-                    return true;
+                    return $tabela == 'alunos' ? 0 : 1;
                 } else {
                     return false;
                 }
@@ -34,11 +34,16 @@ try {
 
         $loginValido = verificarLogin($con, $matricula, $senha, 'alunos');
 
-        if (!$loginValido) {
+        if ($loginValido === false) {
             $loginValido = verificarLogin($con, $matricula, $senha, 'professores');
         }
 
-        if ($loginValido) {
+        if ($loginValido !== false) {
+            session_start();
+            $_SESSION['matricula'] = $matricula;
+            $_SESSION['senha'] = $senha;
+            $_SESSION['credencial'] = $loginValido;
+
             Header("Location: boletim.php");
             exit();
         } else {

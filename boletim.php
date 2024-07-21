@@ -1,3 +1,18 @@
+<?php
+session_start();
+require("conexao.php");
+
+// error_reporting(0);
+
+  if((!isset($_SESSION['matricula']) == true) and (!isset($_SESSION['senha']) == true)){// Ele verifica se não há uma sessão com as credenciais matricula e senha, se não houver ele destrói a sessão.
+      unset($_SESSION['matricula']);
+      unset($_SESSION['senha']);
+      header("Location: index.php");
+  }
+    $logado = $_SESSION['matricula'];// Caso haja uma sessão, o matricula do usuário é armazenado
+    $con = Conexao::getInstance();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,7 +69,9 @@
 
     </div>
 
-
+    <?php
+        if($_SESSION['credencial'] == 0){
+    ?>
     <table>
         <thead>
             <tr>
@@ -125,7 +142,46 @@
             </tr>
         </tbody>
     </table>
+<?php }else{
+    $sql = "SELECT * FROM alunos";
+    $stmt = $con->query($sql);
+    
+    ?>
+    <table>
+        <thead>
+            <tr>
+                <th>Cód. Aluno</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Situação</th>
+                <th>Turma</th>
+                <th>Nº Matricula</th>
+                <th>Data de ingresso</th>
+                <th>Idade</th>
+                <th>Ver mais</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php
+            while ($dados = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            ?>
+            <tr data-code="<?php echo $dados['id']; ?>">
+                <td data-label="Código"><?php echo $dados['id']; ?></td>
+                <td data-label="Nome"><?php echo $dados['nome']; ?></td>
+                <td data-label="E-mail"><?php echo $dados['email']; ?></td>
+                <td data-label="Situação"><?php echo $dados['situacao']; ?></td>
+                <td data-label="Turma"><?php echo $dados['turma']; ?></td>
+                <td data-label="Nº Matricula"><?php echo $dados['matricula']; ?></td>
+                <td data-label="Data de ingresso"><?php echo $dados['ingresso']; ?></td>
+                <td data-label="Idade"><?php echo $dados['idade']; ?></td>
+                <td data-label="Ver mais">
+                    <button type="button" class="btn btn-secondary"><i class="bi bi-search"></i></button>
+                </td>
+            </tr>
 
+        </tbody>
+    </table>
+    <?php }}?>
     <script src="scripts/boletim.js"></script>
 </body>
 
