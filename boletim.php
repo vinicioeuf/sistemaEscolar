@@ -184,13 +184,16 @@ require("conexao.php");
                                 <h5 class="modal-title" id="TituloModalCentralizado"><?php echo "Aluno: ".$dados['nome'];?></h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
+                            
                             <div class="modal-body">
                                 <?php 
                                 $aprovacao = "SELECT * FROM notas WHERE id_aluno='".$dados['id']."'";
                                 $results = $con->query($aprovacao);                                    
                                 $ver = $results->fetch(PDO::FETCH_ASSOC);
-
-                                echo "Turma: ". $ver['turma'];
+                                ?>
+                                <img src="<?php echo $dados['imagem']?>" alt="" style="width: 300px; height: 300px;">
+                                <?php 
+                                echo "<br>Turma: ". $ver['turma'];
                                 echo "<br>Disciplina: ". $ver['disciplina'];
                                 echo "<br>Nota 1: " . $ver['b1'];
                                 echo "<br>Nota 2: " . $ver['b2'];
