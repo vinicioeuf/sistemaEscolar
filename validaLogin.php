@@ -10,20 +10,21 @@ try {
         $senha = trim($_POST['senha']);
 
         function verificarLogin($con, $matricula, $senha, $tabela) {
-            $query = "SELECT senha FROM $tabela WHERE matricula = :matricula";
+            $query = "SELECT id, senha FROM $tabela WHERE matricula = :matricula";
             $stmt = $con->prepare($query);
             $stmt->bindParam(':matricula', $matricula);
             $stmt->execute();
 
             if ($stmt->rowCount() > 0) {
                 $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+                $idUsuario = $resultado['id'];
                 $senhaArmazenada = $resultado['senha'];
 
                 echo "Senha Inserida: " . htmlspecialchars($senha) . "<br>";
                 echo "Senha Armazenada: " . htmlspecialchars($senhaArmazenada) . "<br>";
 
                 if (password_verify($senha, $senhaArmazenada)) {
-                    return $tabela == 'alunos' ? 0 : 1;
+                    return ['id' => $idUsuario, 'credencial' => $tabela == 'alunos' ? 0 : 1];
                 } else {
                     return false;
                 }
@@ -40,9 +41,11 @@ try {
 
         if ($loginValido !== false) {
             session_start();
+
             $_SESSION['matricula'] = $matricula;
             $_SESSION['senha'] = $senha;
-            $_SESSION['credencial'] = $loginValido;
+            $_SESSION['credencial'] = $loginValido['credencial'];
+            $_SESSION['id'] = $loginValido['id'];
 
             Header("Location: boletim.php");
             exit();

@@ -46,9 +46,13 @@
     <label for="E-mail">E-mail:</label>
     <input type="text" name="email" id="" required>
     <br>
+    <?php 
+        $t = "SELECT * FROM turmas";
+        $query = $con->query($t);
+    ?>
     <select name="turma" id="" required>
         <option value="none" selected disabled>Escolher turma</option>
-        <?php while($buscar = $busca->fetch(PDO::FETCH_ASSOC)){?>
+        <?php while($turma = $query->fetch(PDO::FETCH_ASSOC)){?>
         <option value="<?php echo $turma["nome"]; ?>"><?php echo $turma["nome"]; ?></option>
         <?php }?>
     </select>

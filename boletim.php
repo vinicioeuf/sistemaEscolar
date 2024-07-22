@@ -9,6 +9,7 @@ require("conexao.php");
       unset($_SESSION['senha']);
       header("Location: index.php");
   }
+  $ids = $_SESSION['id'];
     $logado = $_SESSION['matricula'];// Caso haja uma sessão, o matricula do usuário é armazenado
     $con = Conexao::getInstance();
 ?>
@@ -71,6 +72,10 @@ require("conexao.php");
 
     <?php
         if($_SESSION['credencial'] == 0){
+            
+        $aprovacao2 = "SELECT * FROM notas WHERE id_aluno='".$_SESSION['id']."'";
+        $results2 = $con->query($aprovacao2);                                    
+        $ver2 = $results2->fetch(PDO::FETCH_ASSOC);
     ?>
     <table>
         <thead>
@@ -92,54 +97,24 @@ require("conexao.php");
             </tr>
         </thead>
         <tbody>
+            
             <tr data-code="001">
-                <td data-label="Código">001</td>
-                <td data-label="Turma">3 ANO, A</td>
-                <td data-label="Disciplina">Língua Portuguesa</td>
-                <td data-label="Situação">Em andamento</td>
-                <td data-label="AV1">7.0</td>
-                <td data-label="R1">9.0</td>
-                <td data-label="AV2">7.0</td>
-                <td data-label="R2">9.0</td>
-                <td data-label="AV3">7.0</td>
-                <td data-label="R3">9.0</td>
-                <td data-label="AV4">7.0</td>
-                <td data-label="R4">9.0</td>
-                <td data-label="RF">8.0</td>
-                <td data-label="MF">7.8</td>
+                <td data-label="Código"><?php echo $ids;?></td>
+                <td data-label="Turma"><?php echo $ver2['turma'];?></td>
+                <td data-label="Disciplina"><?php echo $ver2['disciplina'];?></td>
+                <td data-label="Situação"><?php echo $ver2['situacao'];?></td>
+                <td data-label="AV1"><?php echo $ver2['b1'];?></td>
+                <td data-label="R1"><?php echo $ver2['r1'];?></td>
+                <td data-label="AV2"><?php echo $ver2['b2'];?></td>
+                <td data-label="R2"><?php echo $ver2['r2'];?></td>
+                <td data-label="AV3"><?php echo $ver2['b3'];?></td>
+                <td data-label="R3"><?php echo $ver2['r3'];?></td>
+                <td data-label="AV4"><?php echo $ver2['b4'];?></td>
+                <td data-label="R4"><?php echo $ver2['r4'];?></td>
+                <td data-label="RF"><?php echo $ver2['rf'];?></td>
+                <td data-label="MF"><?php echo $ver2['mf'];?></td>
             </tr>
-            <tr data-code="002">
-                <td data-label="Código">002</td>
-                <td data-label="Turma">3 ANO, A</td>
-                <td data-label="Disciplina">Matemática</td>
-                <td data-label="Situação">Em andamento</td>
-                <td data-label="AV1">7.0</td>
-                <td data-label="R1">9.0</td>
-                <td data-label="AV2">7.0</td>
-                <td data-label="R2">9.0</td>
-                <td data-label="AV3">7.0</td>
-                <td data-label="R3">9.0</td>
-                <td data-label="AV4">7.0</td>
-                <td data-label="R4">9.0</td>
-                <td data-label="RF">8.0</td>
-                <td data-label="MF">7.8</td>
-            </tr>
-            <tr data-code="003">
-                <td data-label="Código">003</td>
-                <td data-label="Turma">3 ANO, A</td>
-                <td data-label="Disciplina">Geografia</td>
-                <td data-label="Situação">Em andamento</td>
-                <td data-label="AV1">7.0</td>
-                <td data-label="R1">9.0</td>
-                <td data-label="AV2">7.0</td>
-                <td data-label="R2">9.0</td>
-                <td data-label="AV3">7.0</td>
-                <td data-label="R3">9.0</td>
-                <td data-label="AV4">7.0</td>
-                <td data-label="R4">9.0</td>
-                <td data-label="RF">8.0</td>
-                <td data-label="MF">7.8</td>
-            </tr>
+
         </tbody>
     </table>
 <?php }else{
@@ -216,7 +191,7 @@ require("conexao.php");
                                 $ver = $results->fetch(PDO::FETCH_ASSOC);
 
                                 echo "Turma: ". $ver['turma'];
-                                echo "Disciplina: ". $ver['disciplina'];
+                                echo "<br>Disciplina: ". $ver['disciplina'];
                                 echo "<br>Nota 1: " . $ver['b1'];
                                 echo "<br>Nota 2: " . $ver['b2'];
                                 echo "<br>Nota 3: " . $ver['b3'];
