@@ -117,3 +117,17 @@ aside{
 .sidebar.expanded ul li .text {
     display: inline;
 }
+
+.button-all{
+    color: #ffffff;
+    background-color: #fd6100;
+    border: 0;
+    border-radius:10px;
+    width: 150px;
+    height: 50px;
+    text-align:center;
+    padding: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: larger;
+}

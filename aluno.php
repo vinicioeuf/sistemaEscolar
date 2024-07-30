@@ -36,9 +36,7 @@
             </div>
         </div>
         <div class="aluno-actions">
-            <button><i class="bi bi-pencil-square"></i> Editar</button>
             <button><i class="bi bi-journal-text"></i> Boletim</button>
-            <button><i class="bi bi-file-earmark-minus"></i> Docs</button>
         </div>
     </div>
     

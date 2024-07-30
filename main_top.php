@@ -26,10 +26,10 @@
         <ul>
             <li><a href="home.php"><i class="bi bi-house-door-fill"></i><span class="text">Início</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="aluno.php"><i class="bi bi-person-circle"></i><span class="text">Aluno</span><i class="bi bi-arrow-right-short text"></i></a></li>
-            <li><a href="boletim.php"><i class="bi bi-journal-text"></i><span class="text">Meu Boletim</span><i class="bi bi-arrow-right-short text"></i></a></li>
+            <li><a href="boletim.php"><i class="bi bi-journal-text"></i><span class="text">Meu oletim</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="faltas.php"><i class="bi bi-exclamation-circle"></i><span class="text">Minhas Faltas</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="turmas.php"><i class="bi bi-kanban"></i><span class="text">Minhas Turmas</span><i class="bi bi-arrow-right-short text"></i></a></li>
-            <li><a href=""><i class="bi bi-laptop"></i><span class="text">Administração</span><i class="bi bi-arrow-right-short text"></i></a></li>
+            <li><a href="adm.php"><i class="bi bi-laptop"></i><span class="text">Administração</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href=""><i class="bi bi-moon-fill"></i><span class="text">Temas</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="index.html"><i class="bi bi-box-arrow-right"></i><span class="text">Sair</span><i class="bi bi-arrow-right-short text"></i></a></li>
 
