@@ -142,7 +142,7 @@ $busca = $con->query($sql);
                                 <h5 class="mb-1">Brenda Barbosa</h5>
                                 <small class="text-muted">Aprovado</small>
                             </div>
-                            <a style="color: orangered;" href="detalhesPessoa1.php" class="btn btn-link">Ver Perfil</a>
+                            <a style="color: orangered;" href="verAluno.php" class="btn btn-link">Ver Perfil</a>
                         </li>
 
                     </ul>
