@@ -19,14 +19,16 @@ try {
     if (isset($_FILES['imagem'])) {
         $imagem = $_FILES['imagem'];
         $nome = addslashes($_POST['nome']);
+        $disciplina = addslashes($_POST['disciplina']);
         $email = addslashes($_POST['email']);
         $nMatricula = addslashes($_POST['nMatricula']);
         $ingresso = addslashes($_POST['ingresso']);
         // $turma = addslashes($_POST['turma']);
+        $credencial = 1;
         $idade = addslashes($_POST['idade']);
-        $situacao = addslashes($_POST['situacao']);
+        // $situacao = addslashes($_POST['situacao']);
         $cpf = addslashes($_POST['cpf']);
-        $qntturmas = addslashes($_POST['qntturmas']);
+        // $qntturmas = addslashes($_POST['qntturmas']);
         $senha = addslashes($_POST['senha']);
         $senhaSafe = password_hash($senha, PASSWORD_DEFAULT);
         // Verifica se não houve erro no upload
@@ -60,17 +62,16 @@ try {
                 $caminhoArquivo = $response['secure_url'];
 
                 // Insere o produto no banco de dados
-                $query = "INSERT INTO professores (nome, idade, qntturmas, situacao, imagem, email, cpf, ingresso, matricula, senha) VALUES (:nome, :idade, :qntturmas, :situacao, :imagem, :email, :cpf, :ingresso, :matricula, :senha)";
+                $query = "INSERT INTO professores (nome, email, disciplina, idade, num_matricula, data_ingresso, foto, credencial, senha) VALUES (:nome, :email, :disciplina, :idade, :num_matricula, :data_ingresso, :foto, :credencial, :senha)";
                 $stmt = $con->prepare($query);
                 $stmt->bindParam(':nome', $nome);
-                $stmt->bindParam(':idade', $idade);
-                $stmt->bindParam(':qntturmas', $qntturmas);
-                $stmt->bindParam(':situacao', $situacao);
-                $stmt->bindParam(':imagem', $caminhoArquivo);
                 $stmt->bindParam(':email', $email);
-                $stmt->bindParam(':cpf', $cpf);
-                $stmt->bindParam(':ingresso', $ingresso);
-                $stmt->bindParam(':matricula', $nMatricula);
+                $stmt->bindParam(':disciplina', $disciplina);
+                $stmt->bindParam(':idade', $idade);
+                $stmt->bindParam(':num_matricula', $nMatricula);
+                $stmt->bindParam(':data_ingresso', $ingresso);
+                $stmt->bindParam(':foto', $caminhoArquivo);
+                $stmt->bindParam(':credencial', $credencial);
                 $stmt->bindParam(':senha', $senhaSafe);
                 $stmt->execute();
             } else {

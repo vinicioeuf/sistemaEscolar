@@ -24,7 +24,8 @@ try {
         $ingresso = addslashes($_POST['ingresso']);
         $turma = addslashes($_POST['turma']);
         $idade = addslashes($_POST['idade']);
-        $situacao = addslashes($_POST['situacao']);
+        $credencial = 0;
+        // $situacao = addslashes($_POST['situacao']);
         $cpf = addslashes($_POST['cpf']);
         $senha = addslashes($_POST['senha']);
         $senhaSafe = password_hash($senha, PASSWORD_DEFAULT);
@@ -59,18 +60,20 @@ try {
                 $caminhoArquivo = $response['secure_url'];
 
                 // Insere o produto no banco de dados
-                $query = "INSERT INTO alunos (nome, email, matricula, cpf, ingresso, turma, idade, situacao, senha, imagem) VALUES (:nome, :email, :matricula, :cpf, :ingresso, :turma, :idade, :situacao, :senha, :imagem)";
+                $query = "INSERT INTO alunos (nome, email, num_matricula, cpf, data_ingresso, turma, idade, foto, credencial, senha) 
+                        VALUES (:nome, :email, :num_matricula, :cpf, :data_ingresso, :turma, :idade, :foto, :credencial, :senha)";
                 $stmt = $con->prepare($query);
                 $stmt->bindParam(':nome', $nome);
                 $stmt->bindParam(':email', $email);
-                $stmt->bindParam(':matricula', $nMatricula);
+                $stmt->bindParam(':num_matricula', $nMatricula);
                 $stmt->bindParam(':cpf', $cpf);
-                $stmt->bindParam(':ingresso', $ingresso);
+                $stmt->bindParam(':data_ingresso', $ingresso);
                 $stmt->bindParam(':turma', $turma);
                 $stmt->bindParam(':idade', $idade);
-                $stmt->bindParam(':situacao', $situacao);
+                $stmt->bindParam(':foto', $caminhoArquivo);
+                $stmt->bindParam(':credencial', $credencial);
                 $stmt->bindParam(':senha', $senhaSafe);
-                $stmt->bindParam(':imagem', $caminhoArquivo);
+
                 $stmt->execute();
             } else {
                 echo 'Somente arquivos JPG e PNG são permitidos.';

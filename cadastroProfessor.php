@@ -1,6 +1,17 @@
+
+
+
+
 <form action="validaCadastroProfessor.php" method="post" enctype="multipart/form-data">
     <label for="Nome">Nome:</label>
     <input type="text" name="nome" id="" required>
+    <br>
+    <select name="disciplina" id="">
+        <option value="Lingua Portuguesa">Língua Portuguesa</option>
+        <option value="Matematica">Matemática</option>
+        <option value="Historia">História</option>
+        <option value="Educacao Fisica">Educação Fisica</option>
+    </select>
     <br>
     <label for="">Gerar número da matrícula desse professor:</label>
     <input type="button" id="gerarmatricula" value="Gerar" required/>
@@ -41,12 +52,7 @@
     
     <label for="Idade">Idade:</label>
     <input type="number" name="idade" id="" required>
-    <br>
-    <label for="Idade">Quantidade de turmas:</label>
-    <input type="number" name="qntturmas" id="" required>
-    <br>
-    <label for="Situação">Situação:</label>
-    <input type="text" name="situacao" id="" required>
+
     <br>
     <label for="">Foto:</label>
     <input type="file" name="imagem" id="" required>

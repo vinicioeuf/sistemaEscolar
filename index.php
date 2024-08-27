@@ -26,7 +26,7 @@
 
             <div class="user-main">
                 <h6>Matrícula:</h6>
-                <input type="number" name="matricula">
+                <input type="number" name="num_matricula">
             </div>
 
             <div class="password-main position-relative">

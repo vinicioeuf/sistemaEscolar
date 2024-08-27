@@ -28,11 +28,6 @@
     <label for="">Quantidade de alunos:</label>
     <input type="number" name="qntalunos" id="">
     <br>
-    <label for="">Alunos aprovados:</label>
-    <input type="number" name="qntaprovados" id="">
-    <br>
-    <label for="">Alunos reprovados:</label>
-    <input type="number" name="qntreprovados" id="">
-    <br>
+    
     <button type="submit">Criar turma</button>
 </form>

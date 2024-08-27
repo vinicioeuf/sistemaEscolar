@@ -1,62 +1,84 @@
 <?php
+session_start(); // Inicie a sessão
 
-include "conexao.php";
+require("conexao.php");
+$con = Conexao::getInstance(); // Supondo que isso retorne uma instância PDO
+
+// Receba os dados do formulário
+$num_matricula = $_POST['num_matricula'];
+$senha = addslashes($_POST['senha']);
 
 try {
-    $con = Conexao::getInstance();
+    // Prepare a consulta para buscar o usuário pelo número de matrícula
+    $sql = "SELECT id, credencial, senha FROM professores WHERE num_matricula = :num_matricula";
+    $stmt = $con->prepare($sql);
+    
+    // Bind do parâmetro
+    $stmt->bindParam(':num_matricula', $num_matricula, PDO::PARAM_STR);
+    
+    // Execute a consulta
+    $stmt->execute();
+    
+    // Verifique se algum usuário foi encontrado
+    if ($stmt->rowCount() > 0) {
+        // Usuário encontrado
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Verifique a senha
+        if (password_verify($senha, $user['senha'])) {
+            // Senha correta, armazene as informações na sessão
+            $_SESSION['id'] = $user['id'];
+            $_SESSION['credencial'] = $user['credencial'];
+            $_SESSION['num_matricula'] = $num_matricula;
 
-    if (isset($_POST['matricula']) && isset($_POST['senha'])) {
-        $matricula = trim($_POST['matricula']);
-        $senha = trim($_POST['senha']);
-
-        function verificarLogin($con, $matricula, $senha, $tabela) {
-            $query = "SELECT id, senha FROM $tabela WHERE matricula = :matricula";
-            $stmt = $con->prepare($query);
-            $stmt->bindParam(':matricula', $matricula);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-                $idUsuario = $resultado['id'];
-                $senhaArmazenada = $resultado['senha'];
-
-                echo "Senha Inserida: " . htmlspecialchars($senha) . "<br>";
-                echo "Senha Armazenada: " . htmlspecialchars($senhaArmazenada) . "<br>";
-
-                if (password_verify($senha, $senhaArmazenada)) {
-                    return ['id' => $idUsuario, 'credencial' => $tabela == 'alunos' ? 0 : 1];
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        }
-
-        $loginValido = verificarLogin($con, $matricula, $senha, 'alunos');
-
-        if ($loginValido === false) {
-            $loginValido = verificarLogin($con, $matricula, $senha, 'professores');
-        }
-
-        if ($loginValido !== false) {
-            session_start();
-
-            $_SESSION['matricula'] = $matricula;
-            $_SESSION['senha'] = $senha;
-            $_SESSION['credencial'] = $loginValido['credencial'];
-            $_SESSION['id'] = $loginValido['id'];
-
-            Header("Location: boletim.php");
+            // Redirecione para a página boletim.php
+            header("Location: boletim.php");
             exit();
         } else {
-            echo "matricula ou senha incorretos.";
+            // Senha incorreta
+            echo "Senha incorreta.";
         }
     } else {
-        echo "Por favor, preencha todos os campos.";
+        // Usuário não encontrado na tabela professores
+        echo "Usuário não encontrado na tabela professores.";
+        
+        // Consulta à tabela alunos
+        $sql2 = "SELECT id, credencial, senha FROM alunos WHERE num_matricula = :num_matricula";
+        $stmt2 = $con->prepare($sql2);
+        
+        // Bind do parâmetro
+        $stmt2->bindParam(':num_matricula', $num_matricula, PDO::PARAM_STR);
+        
+        // Execute a consulta
+        $stmt2->execute();
+        if ($stmt2->rowCount() > 0) {
+            // Usuário encontrado
+            $user2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+            
+            // Verifique a senha
+            if (password_verify($senha, $user2['senha'])) {
+                // Senha correta, armazene as informações na sessão
+                $_SESSION['id'] = $user2['id'];
+                $_SESSION['credencial'] = $user2['credencial'];
+                $_SESSION['num_matricula'] = $num_matricula;
+    
+                // Redirecione para a página boletim.php
+                header("Location: boletim.php");
+                
+                exit();
+            } else {
+                // Senha incorreta
+                echo "Senha incorreta.";
+            }
+        } else {
+            echo "<br>Usuário não encontrado na tabela alunos.";
+        }
     }
 } catch (PDOException $e) {
-    echo 'Erro ao conectar com o banco de dados: ' . $e->getMessage();
+    // Exiba erro em caso de falha na conexão ou consulta
+    echo "Erro: " . $e->getMessage();
 }
 
+// Feche a conexão
+$con = null;
 ?>

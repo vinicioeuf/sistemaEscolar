@@ -11,11 +11,10 @@ try {
     $professor = addslashes($_POST['professor']);
     $qntAlunos = addslashes($_POST['qntalunos']);
     $turno = addslashes($_POST['turno']);
-    $qntAprovados = addslashes($_POST['qntaprovados']);
-    $qntReprovados = addslashes($_POST['qntreprovados']);
+   
     
     // Cria a consulta SQL para inserir os dados na tabela "turmas"
-    $query = "INSERT INTO turmas (nome, professor, qntalunos, qntaprovados, qntreprovados, turno, criacao) VALUES (:nome, :professor, :qntalunos, :qntaprovados, :qntreprovados, :turno, NOW())";
+    $query = "INSERT INTO turmas (nome, professor, qntalunos) VALUES (:nome, :professor, :qntalunos, :turno)";
     
     // Prepara a consulta
     $stmt = $con->prepare($query);
@@ -24,8 +23,6 @@ try {
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':professor', $professor);
     $stmt->bindParam(':qntalunos', $qntAlunos);
-    $stmt->bindParam(':qntaprovados', $qntAprovados);
-    $stmt->bindParam(':qntreprovados', $qntReprovados);
     $stmt->bindParam(':turno', $turno);
     
     // Executa a consulta

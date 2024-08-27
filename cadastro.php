@@ -60,9 +60,7 @@
     <label for="Idade">Idade:</label>
     <input type="number" name="idade" id="" required>
     <br>
-    <label for="Situação">Situação:</label>
-    <input type="text" name="situacao" id="" required>
-    <br>
+    
     <label for="">Foto:</label>
     <input type="file" name="imagem" id="" required>
     <br>
