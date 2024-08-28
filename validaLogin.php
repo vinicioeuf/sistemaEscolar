@@ -30,7 +30,7 @@ try {
             $_SESSION['id'] = $user['id'];
             $_SESSION['credencial'] = $user['credencial'];
             $_SESSION['num_matricula'] = $num_matricula;
-
+            $_SESSION['nome'] = $user['nome'];
             // Redirecione para a página boletim.php
             header("Location: boletim.php");
             exit();
@@ -61,7 +61,7 @@ try {
                 $_SESSION['id'] = $user2['id'];
                 $_SESSION['credencial'] = $user2['credencial'];
                 $_SESSION['num_matricula'] = $num_matricula;
-    
+                $_SESSION['nome'] = $user2['nome'];
                 // Redirecione para a página boletim.php
                 header("Location: boletim.php");
                 

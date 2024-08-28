@@ -1,9 +1,18 @@
 <?php
+session_start();
 require_once("conexao.php");
 
+
+
 $con = Conexao::getInstance();
-$sql = "SELECT * FROM turmas";
+$qr = "SELECT * FROM professores WHERE id='".$_SESSION['id']."'";
+$or = $con->query($qr);                                    
+$pd = $or->fetch(PDO::FETCH_ASSOC);
+
+$sql = "SELECT * FROM turmas WHERE professor = '".$pd['nome']."'";
 $busca = $con->query($sql);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -26,19 +35,69 @@ $busca = $con->query($sql);
         <h1>Início > Minhas Turmas</h1>
         <button type="button" class="button-prof" data-bs-toggle="modal" data-bs-target="#exampleModalNovaTurma">Criar Turma</button>
         <div class="div-turmas">
-            <?php while ($turma = $busca->fetch(PDO::FETCH_ASSOC)) {
-                $ano = date('Y', strtotime($turma['criacao'])); ?>
+            <?php while ($turma = $busca->fetch(PDO::FETCH_ASSOC)) { ?>
                 <div class="turma-exemple">
                     <h1><?php echo $turma["nome"]; ?></h1>
-                    <h2> <?php echo $turma["turno"]; ?></h2>
+                    <h2><?php echo $turma["turno"]; ?></h2>
                     <ul>
-                        <li><span>Ano:</span><span><?php echo $ano; ?></span></li>
                         <li><span>N Alunos:</span><span><?php echo $turma["qntalunos"]; ?></span></li>
-                        <li><span>Professor :</span><span><?php echo $turma["professor"]; ?></span></li>
-                    <?php  } ?>
                     </ul>
-                    <button type="button" class="button-prof" data-bs-toggle="modal" data-bs-target="#exampleModalDetalhar">Detalhar</button>
+                    <button type="button" class="button-prof" data-bs-toggle="modal" data-bs-target="#exampleModalDetalhar-<?php echo $turma['id']; ?>">Detalhar</button>
                 </div>
+
+                <!-- Modal Detalhar -->
+                <div class="modal fade" id="exampleModalDetalhar-<?php echo $turma['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Detalhes</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Professor(a)</h4>
+                                <?php
+                                    $y = "SELECT * FROM professores WHERE id='".$_SESSION['id']."'";
+                                    $o = $con->query($y);                                    
+                                    $p = $o->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                <ul class="list-group">
+                                    <li style="border: 0;" class="list-group-item d-flex align-items-center">
+                                        <img src="<?php echo $p['foto']; ?>" alt="Foto do professor" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                                        <div class="flex-grow-1">
+                                            <h5 class="mb-1"><?php echo $p['nome']; ?></h5>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <br>
+                                <h5>Alunos:</h5>
+                                <ul class="list-group">
+                                    <?php
+                                    $turmaID = $turma['id'];
+                                    $sqlAlunos = "SELECT * FROM alunos WHERE turma_id = :turmaID";
+                                    $stmt = $con->prepare($sqlAlunos);
+                                    $stmt->bindParam(':turmaID', $turmaID, PDO::PARAM_INT);
+                                    $stmt->execute();
+
+                                    while ($aluno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    ?>
+                                        <li style="border: 0;" class="list-group-item d-flex align-items-center">
+                                            <img src="<?php echo $aluno['foto']; ?>" alt="Foto de <?php echo $aluno['nome']; ?>" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                                            <div class="flex-grow-1">
+                                                <h5 class="mb-1"><?php echo $aluno['nome']; ?></h5>
+                                                <small class="text-muted"><?php echo $aluno['idade']; ?></small>
+                                            </div>
+                                            <a style="color: orangered;" href="verAluno.php?id=<?php echo $aluno['id']; ?>" class="btn btn-link">Ver Perfil</a>
+                                        </li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
     </div>
 
@@ -50,6 +109,7 @@ $busca = $con->query($sql);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <!-- Form to create a new class -->
                     <?php
                     require_once("conexao.php");
 
@@ -89,16 +149,6 @@ $busca = $con->query($sql);
                             <input type="number" name="qntalunos" class="form-control" id="qntalunos" required>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="qntaprovados" class="form-label">Alunos aprovados:</label>
-                            <input type="number" name="qntaprovados" class="form-control" id="qntaprovados">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="qntreprovados" class="form-label">Alunos reprovados:</label>
-                            <input type="number" name="qntreprovados" class="form-control" id="qntreprovados">
-                        </div>
-
                         <button type="submit" class="btn button-all">Salvar</button>
                     </form>
                 </div>
@@ -110,51 +160,6 @@ $busca = $con->query($sql);
         </div>
     </div>
 
-
-
-    <div class="modal fade" id="exampleModalDetalhar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Detalhes</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-
-                    <h4>Professor(a)</h4>
-
-                    <ul class="list-group">
-                        <li style="border: 0;"  class="list-group-item d-flex align-items-center">
-                            <img src="images/avatar.png" alt="Foto de Pessoa 1" class="rounded-circle me-3" style="width: 50px; height: 50px;">
-                            <div class="flex-grow-1">
-                                <h5 class="mb-1">Francenila Rodrigues</h5>
-                            </div>
-
-                        </li>
-                    </ul>
-                    <br>
-                    <h5>Alunos:</h5>
-                    <ul class="list-group">
-                        <li style="border: 0;" class="list-group-item d-flex align-items-center">
-                            <img src="images/avatar.png" alt="Foto de Pessoa 1" class="rounded-circle me-3" style="width: 50px; height: 50px;">
-                            <div class="flex-grow-1">
-                                <h5 class="mb-1">Brenda Barbosa</h5>
-                                <small class="text-muted">Aprovado</small>
-                            </div>
-                            <a style="color: orangered;" href="verAluno.php" class="btn btn-link">Ver Perfil</a>
-                        </li>
-
-                    </ul>
-                </div>
-
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>

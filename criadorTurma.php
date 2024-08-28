@@ -14,7 +14,7 @@ try {
    
     
     // Cria a consulta SQL para inserir os dados na tabela "turmas"
-    $query = "INSERT INTO turmas (nome, professor, qntalunos) VALUES (:nome, :professor, :qntalunos, :turno)";
+    $query = "INSERT INTO turmas (nome, professor, qntalunos, turno) VALUES (:nome, :professor, :qntalunos, :turno)";
     
     // Prepara a consulta
     $stmt = $con->prepare($query);

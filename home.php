@@ -1,3 +1,18 @@
+<?php
+session_start();
+require("conexao.php");
+
+// error_reporting(0);
+
+  if((!isset($_SESSION['num_matricula']) == true) and (!isset($_SESSION['senha']) == true)){// Ele verifica se não há uma sessão com as credenciais num_matricula e senha, se não houver ele destrói a sessão.
+      unset($_SESSION['num_matricula']);
+      unset($_SESSION['senha']);
+      header("Location: index.php");
+  }
+  $ids = $_SESSION['id'];
+    $logado = $_SESSION['num_matricula'];// Caso haja uma sessão, o matricula do usuário é armazenado
+    $con = Conexao::getInstance();
+?>
 <!DOCTYPE html>
 <html lang="en">
 

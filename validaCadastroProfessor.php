@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include "conexao.php";
 include "vendor/autoload.php";
 use Cloudinary\Configuration\Configuration;
@@ -80,7 +80,7 @@ try {
 
         }
     }
-    header('Location: index.php');
+    header('Location: professores.php');
     exit();
 } catch (PDOException $e) {
     echo 'Erro ao conectar com o banco de dados: ' . $e->getMessage();

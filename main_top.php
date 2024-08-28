@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,22 +18,59 @@
             <i id="menuBtn" class="bi bi-list menu-btn"></i>
             <img class="imgLogo" src="images/logo.png" alt="">
         </div>
-
+        <a href="perfil.php">
         <div class="main-profile">
-            <img src="images/avatar.png" alt="">
-            <h6>Brenda Barbosa, 3º A</h6>
+            <?php
+                if($_SESSION['credencial'] == 0){
+                    $t = "SELECT nome, foto FROM alunos WHERE id='".$_SESSION['id']."'";
+                    $s = $con->query($t);                                    
+                    $g = $s->fetch(PDO::FETCH_ASSOC);
+                }else{
+                    $t = "SELECT nome, foto FROM professores WHERE id='".$_SESSION['id']."'";
+                    $s = $con->query($t);                                    
+                    $g = $s->fetch(PDO::FETCH_ASSOC);
+                }
+                
+            ?>
+            <img src="<?php echo $g["foto"];?>" alt="">
+            <h6><?php echo $g["nome"];?>, 3º A</h6>
         </div>
+        </a>
     </header>
 
     <aside id="sidebar" class="sidebar">
         <ul>
             <li><a href="home.php"><i class="bi bi-house-door-fill"></i><span class="text">Início</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="aluno.php"><i class="bi bi-person-circle"></i><span class="text">Aluno</span><i class="bi bi-arrow-right-short text"></i></a></li>
-            <li><a href="boletim.php"><i class="bi bi-journal-text"></i><span class="text">Meu oletim</span><i class="bi bi-arrow-right-short text"></i></a></li>
+            <li><a href="boletim.php"><i class="bi bi-journal-text"></i><span class="text">Meu boletim</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="faltas.php"><i class="bi bi-exclamation-circle"></i><span class="text">Minhas Faltas</span><i class="bi bi-arrow-right-short text"></i></a></li>
+            <?php
+                if($_SESSION['credencial'] != 0){?>
             <li><a href="turmas.php"><i class="bi bi-kanban"></i><span class="text">Minhas Turmas</span><i class="bi bi-arrow-right-short text"></i></a></li>
+                    <?php }else{?>
+                        <?php }?>
+                        <?php
+            if($_SESSION['credencial'] == 2){?>                 
             <li><a href="adm.php"><i class="bi bi-laptop"></i><span class="text">Administração</span><i class="bi bi-arrow-right-short text"></i></a></li>
-            <li><a href="index.html"><i class="bi bi-box-arrow-right"></i><span class="text">Sair</span><i class="bi bi-arrow-right-short text"></i></a></li>
+            <?php }else{?>
+                <?php }?> 
+                
+                <form action="" method="post">
+                    <button type="submit" name="submit">
+                    <i class="bi bi-box-arrow-right"></i>
+                    </button>
+                </form>
+
+                <?php 
+
+                if(isset($_POST['submit'])){
+                    session_destroy(); 
+                    header("Location: index.php");
+                    exit; 
+                }
+
+                ?>
+            <!-- <li><a href="index.html"><i class="bi bi-box-arrow-right"></i><span class="text">Sair</span><i class="bi bi-arrow-right-short text"></i></a></li> -->
 
         </ul>
     </aside>

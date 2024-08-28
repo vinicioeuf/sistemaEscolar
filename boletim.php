@@ -73,7 +73,7 @@ require("conexao.php");
     <?php
         if($_SESSION['credencial'] == 0){
             
-        $aprovacao2 = "SELECT * FROM notas WHERE id_aluno='".$_SESSION['id']."'";
+        $aprovacao2 = "SELECT * FROM notas WHERE aluno_ref='".$_SESSION['id']."'";
         $results2 = $con->query($aprovacao2);                                    
         $ver2 = $results2->fetch(PDO::FETCH_ASSOC);
     ?>
@@ -81,7 +81,7 @@ require("conexao.php");
         <thead>
             <tr>
                 <th>Código</th>
-                <th>Turma</th>
+                <!-- <th>Turma</th> -->
                 <th>Disciplina</th>
                 <th>Situação</th>
                 <th>AV1</th>
@@ -100,7 +100,7 @@ require("conexao.php");
             
             <tr data-code="001">
                 <td data-label="Código"><?php echo $ids;?></td>
-                <td data-label="Turma"><?php echo $ver2['turma'];?></td>
+                <!-- <td data-label="Turma"?></td> -->
                 <td data-label="Disciplina"><?php echo $ver2['disciplina'];?></td>
                 <td data-label="Situação"><?php echo $ver2['situacao'];?></td>
                 <td data-label="AV1"><?php echo $ver2['b1'];?></td>
@@ -128,7 +128,7 @@ require("conexao.php");
                 <th>Cód. Aluno</th>
                 <th>Nome</th>
                 <th>E-mail</th>
-                <th>Situação</th>
+                <!-- <th>Situação</th> -->
                 <th>Turma</th>
                 <th>Nº Matricula</th>
                 <th>Data de ingresso</th>
@@ -147,7 +147,7 @@ require("conexao.php");
                     <p><strong>Código:</strong> <span id="modalCodigo"></span></p>
                     <p><strong>Nome:</strong> <span id="modalNome"></span></p>
                     <p><strong>E-mail:</strong> <span id="modalEmail"></span></p>
-                    <p><strong>Situação:</strong> <span id="modalSituacao"></span></p>
+                    
                     <p><strong>Turma:</strong> <span id="modalTurma"></span></p>
                     <p><strong>Nº Matricula:</strong> <span id="modalMatricula"></span></p>
                     <p><strong>Data de Ingresso:</strong> <span id="modalDataIngresso"></span></p>
@@ -168,10 +168,10 @@ require("conexao.php");
                 <td data-label="Código"><?php echo "00" + $dados['id']; ?></td>
                 <td data-label="Nome"><?php echo $dados['nome']; ?></td>
                 <td data-label="E-mail"><?php echo $dados['email']; ?></td>
-                <td data-label="Situação"><?php echo $dados['situacao']; ?></td>
+                
                 <td data-label="Turma"><?php echo $dados['turma']; ?></td>
-                <td data-label="Nº Matricula"><?php echo $dados['matricula']; ?></td>
-                <td data-label="Data de ingresso"><?php echo $dados['ingresso']; ?></td>
+                <td data-label="Nº Matricula"><?php echo $dados['num_matricula']; ?></td>
+                <td data-label="Data de ingresso"><?php echo $dados['data_ingresso']; ?></td>
                 <td data-label="Idade"><?php echo $dados['idade']; ?></td>
                 <td data-label="Ver mais">
                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#verificar<?php echo $dados['id'];?>" data-bs-whatever="<?php echo $dados['nome'];?>">
@@ -187,11 +187,11 @@ require("conexao.php");
                             
                             <div class="modal-body">
                                 <?php 
-                                $aprovacao = "SELECT * FROM notas WHERE id_aluno='".$dados['id']."'";
+                                $aprovacao = "SELECT * FROM notas WHERE id='".$dados['id']."'";
                                 $results = $con->query($aprovacao);                                    
                                 $ver = $results->fetch(PDO::FETCH_ASSOC);
                                 ?>
-                                <img src="<?php echo $dados['imagem']?>" alt="" style="width: 300px; height: 300px;">
+                                <img src="<?php echo $dados['foto']?>" alt="" style="width: 300px; height: 300px;">
                                 <?php 
                                 echo "<br>Turma: ". $ver['turma'];
                                 echo "<br>Disciplina: ". $ver['disciplina'];
