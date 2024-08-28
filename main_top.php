@@ -18,7 +18,7 @@
             <i id="menuBtn" class="bi bi-list menu-btn"></i>
             <img class="imgLogo" src="images/logo.png" alt="">
         </div>
-        <a href="perfil.php">
+        <a href="aluno.php">
         <div class="main-profile">
             <?php
                 if($_SESSION['credencial'] == 0){
