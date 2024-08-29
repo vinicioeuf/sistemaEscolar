@@ -8,10 +8,13 @@
     $con = Conexao::getInstance();
     $sql = "SELECT * FROM turmas";
     $busca = $con->query($sql);
+
+    $sql_aluno = "SELECT * FROM alunos";
+    $injet = $con->query($sql_aluno);
 ?>
 
 <form action="validaNota.php" method="post">
-    <select name="turma" id="">
+    <select name="turma_ref" id="">
         <option value="" selected disabled>Nome da turma</option>
         <?php
              while ($turmas = $busca->fetch(PDO::FETCH_ASSOC)) {
@@ -21,18 +24,13 @@
     </select>
     <br>
     <select name="disciplina" id="">
-        <option value="Matemática">Matemática</option>
-        <option value="Educação Física">Educação Física</option>
-        <option value="Língua Portuguesa">Língua Portuguesa</option>
-        <option value="História">História</option>
-        <option value="Biologia">Biologia</option>
-        <option value="Física">Física</option>
-        <option value="Quimica">Quimica</option>
-        <option value="Artes">Artes</option>
-        <option value="Sociologia">Sociologia</option>
-        <option value="Filosofia">Filosofia</option>
-        <option value="Inglês">Inglês</option>
+        <option value="Lingua Portuguesa">Língua Portuguesa</option>
+        <option value="Matematica">Matemática</option>
+        <option value="Historia">História</option>
+        <option value="Educacao Fisica">Educação Fisica</option>
     </select>
+
+    
     <br>
     <label for="">Nota do 1º bimestre:</label>
     <input type="text" name="b1" id="">
@@ -59,10 +57,10 @@
     <input type="text" name="r4" id="">
     <br>
     <label for="">Nota da recuperação final:</label>
-    <input type="text" name="rf" id="">
+    <input type="text" name="final" id="">
     <br>
     <label for="">Média final:</label>
-    <input type="text" name="mf" id="">
+    <input type="text" name="media_final" id="">
     <br>
     <select name="situacao" id="">
         <option value="Em andamento">Em andamento</option>
@@ -77,12 +75,16 @@
         $setDados = $con->query($getDados);
 
     ?>
-    <select name="id_aluno" id="">
+    <select name="aluno_ref" id="">
         <option value="none" disabled selected>Id do aluno:</option>
         <?php while($infor = $setDados->fetch(PDO::FETCH_ASSOC)){ ?>
         <option value="<?php echo $infor["id"];?>"><?php echo $infor["nome"] . ", ID: " .$infor["id"];?></option>
         <?php } ?>
     </select>
+<br>
+<label for="">Faltas:</label>
+    <input type="number" name="faltas" id="">
+    
     <br>
     <button type="submit">Lançar nota</button>
 </form>

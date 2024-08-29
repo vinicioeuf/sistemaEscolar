@@ -111,8 +111,8 @@ require("conexao.php");
                 <td data-label="R3"><?php echo $ver2['r3'];?></td>
                 <td data-label="AV4"><?php echo $ver2['b4'];?></td>
                 <td data-label="R4"><?php echo $ver2['r4'];?></td>
-                <td data-label="RF"><?php echo $ver2['rf'];?></td>
-                <td data-label="MF"><?php echo $ver2['mf'];?></td>
+                <td data-label="RF"><?php echo $ver2['final'];?></td>
+                <td data-label="MF"><?php echo $ver2['media_final'];?></td>
             </tr>
 
         </tbody>
@@ -187,13 +187,13 @@ require("conexao.php");
                             
                             <div class="modal-body">
                                 <?php 
-                                $aprovacao = "SELECT * FROM notas WHERE id='".$dados['id']."'";
+                                $aprovacao = "SELECT * FROM notas WHERE aluno_ref='".$dados['id']."'";
                                 $results = $con->query($aprovacao);                                    
                                 $ver = $results->fetch(PDO::FETCH_ASSOC);
                                 ?>
                                 <img src="<?php echo $dados['foto']?>" alt="" style="width: 300px; height: 300px;">
                                 <?php 
-                                echo "<br>Turma: ". $ver['turma'];
+                                echo "<br>Turma: ". $ver['turma_ref'];
                                 echo "<br>Disciplina: ". $ver['disciplina'];
                                 echo "<br>Nota 1: " . $ver['b1'];
                                 echo "<br>Nota 2: " . $ver['b2'];
@@ -203,8 +203,8 @@ require("conexao.php");
                                 echo "<br>Recuperação 2: " . $ver['r2'];
                                 echo "<br>Recuperação 3: " . $ver['r3'];
                                 echo "<br>Recuperação 4: " . $ver['r4'];
-                                echo "<br>Recuperação Final: " . $ver['rf'];
-                                echo "<br>Média final: " . $ver['mf'];
+                                echo "<br>Recuperação Final: " . $ver['final'];
+                                echo "<br>Média final: " . $ver['media_final'];
                                 echo "<br>Situação: " . $ver['situacao'];
                                 echo "<hr>";
                                 ?>

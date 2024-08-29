@@ -28,6 +28,9 @@
     <label for="">Quantidade de alunos:</label>
     <input type="number" name="qntalunos" id="">
     <br>
+    <label for="">Quantidade de aulas:</label>
+    <input type="number" name="totalaulas" id="">
+    <br>
     
     <button type="submit">Criar turma</button>
 </form>

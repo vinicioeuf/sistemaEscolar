@@ -86,7 +86,7 @@ $busca = $con->query($sql);
                                                 <h5 class="mb-1"><?php echo $aluno['nome']; ?></h5>
                                                 <small class="text-muted"><?php echo $aluno['idade']; ?></small>
                                             </div>
-                                            <a style="color: orangered;" href="verAluno.php?id=<?php echo $aluno['id']; ?>" class="btn btn-link">Ver Perfil</a>
+                                            <a style="color: orangered;" href="lancarNotas.php" class="btn btn-link">Ver Perfil</a>
                                         </li>
                                     <?php } ?>
                                 </ul>

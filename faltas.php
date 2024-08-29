@@ -1,3 +1,39 @@
+<?php
+session_start();
+require("conexao.php");
+
+// Verificação da sessão
+if ((!isset($_SESSION['num_matricula']) == true) && (!isset($_SESSION['senha']) == true)) {
+    unset($_SESSION['num_matricula']);
+    unset($_SESSION['senha']);
+    header("Location: index.php");
+}
+$ids = $_SESSION['id'];
+$logado = $_SESSION['num_matricula'];
+$con = Conexao::getInstance();
+
+// Consulta SQL
+$sql = "SELECT 
+            t.id AS codigo, 
+            t.nome AS turma, 
+            n.disciplina, 
+            n.situacao, 
+            t.totalaulas, 
+            ROUND(((t.totalaulas - t.faltas) / t.totalaulas) * 100, 2) AS frequencia
+        FROM 
+            turmas t
+        JOIN 
+            notas n ON t.nome = n.turma_ref
+        WHERE 
+            n.aluno_ref = :aluno_id";
+
+$stmt = $con->prepare($sql);
+$stmt->bindParam(':aluno_id', $ids, PDO::PARAM_INT);
+$stmt->execute();
+
+$resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,33 +54,12 @@
 
         <h1>Início > Minhas Faltas</h1>
         <div class="main-actions">
-            <div class="main-selecters">
-
-                <div>
-                    <label for="ano-select">Ano:</label>
-                    <select id="ano-select">
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                    </select>
-                </div>
-
-                <div id="selectors">
-                    <label for="discipline-select">Disciplina:</label>
-                    <select id="discipline-select" onchange="showRow(this.value)">
-                        <option value="001">Língua Portuguesa</option>
-                        <option value="002">Matemática</option>
-                        <option value="003">Geografia</option>
-                    </select>
-                </div>
-
-            </div>
 
             <div class="main-avisos">
 
                 <div class="aviso">
                     <i class="bi bi-exclamation-triangle"></i>
-                    <span>Caso conste <strong>REPROVADO</strong> e a frequência seja maior ou igual  75%, verifique se sua MF em <a href="boletim.php">Boletim</a> na disciplina em questão foi menor que 70. </span>
+                    <span>Caso conste <strong>REPROVADO</strong> e a frequência seja maior ou igual 75%, verifique se sua MF em <a href="boletim.php">Boletim</a> na disciplina em questão foi menor que 70.</span>
                 </div>
                 <div class="aviso">
                     <i class="bi bi-exclamation-triangle"></i>
@@ -55,9 +70,7 @@
 
         </div>
 
-
     </div>
-
 
     <table>
         <thead>
@@ -67,52 +80,20 @@
                 <th>Disciplina</th>
                 <th>Situação</th>
                 <th>Total De Aulas</th>
-                <th>B1</th>
-                <th>B2</th>
-                <th>B3</th>
-                <th>B4</th>
                 <th>Frequência</th>
             </tr>
         </thead>
         <tbody>
-            <tr data-code="001">
-                <td data-label="Código">001</td>
-                <td data-label="Turma">3 ANO, A</td>
-                <td data-label="Disciplina">Língua Portuguesa</td>
-                <td data-label="Situação">Em andamento</td>
-                <td data-label="Total De Aulas">180</td>
-                <td data-label="B1">7</td>
-                <td data-label="B2">9</td>
-                <td data-label="B3">7</td>
-                <td data-label="B4">9</td>
-                <td data-label="Frequência">90%</td>
-            </tr>
-            <tr data-code="002">
-                <td data-label="Código">002</td>
-                <td data-label="Turma">3 ANO, A</td>
-                <td data-label="Disciplina">Matemática</td>
-                <td data-label="Situação">Em andamento</td>
-                <td data-label="Total De Aulas">180</td>
-                <td data-label="B1">7</td>
-                <td data-label="B2">9</td>
-                <td data-label="B3">7</td>
-                <td data-label="B4">9</td>
-                <td data-label="Frequência">90%</td>
-                
-            </tr>
-            <tr data-code="003">
-                <td data-label="Código">003</td>
-                <td data-label="Turma">3 ANO, A</td>
-                <td data-label="Disciplina">Geografia</td>
-                <td data-label="Situação">Em andamento</td>
-                <td data-label="Total De Aulas">180</td>
-                <td data-label="B1">7</td>
-                <td data-label="B2">9</td>
-                <td data-label="B3">7</td>
-                <td data-label="B4">9</td>
-                <td data-label="Frequência">90%</td>
-                
-            </tr>
+            <?php foreach ($resultados as $row): ?>
+                <tr>
+                    <td data-label="Código"><?php echo $row['codigo']; ?></td>
+                    <td data-label="Turma"><?php echo $row['turma']; ?></td>
+                    <td data-label="Disciplina"><?php echo $row['disciplina']; ?></td>
+                    <td data-label="Situação"><?php echo $row['situacao']; ?></td>
+                    <td data-label="Total De Aulas"><?php echo $row['totalaulas']; ?></td>
+                    <td data-label="Frequência"><?php echo $row['frequencia'] . '%'; ?></td>
+                </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
 
