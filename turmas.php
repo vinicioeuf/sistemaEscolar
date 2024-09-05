@@ -149,6 +149,11 @@ $busca = $con->query($sql);
                             <input type="number" name="qntalunos" class="form-control" id="qntalunos" required>
                         </div>
 
+                        <div class="mb-3">
+                            <label for="totalaulas" class="form-label">Carga horária total:</label>
+                            <input type="number" name="totalaulas" class="form-control" id="qntalunos" required>
+                        </div>
+
                         <button type="submit" class="btn button-all">Salvar</button>
                     </form>
                 </div>

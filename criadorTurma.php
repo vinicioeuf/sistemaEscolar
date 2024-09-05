@@ -14,7 +14,9 @@ try {
     $totalaulas = addslashes($_POST['totalaulas']);
     $faltas = 0;    
     // Cria a consulta SQL para inserir os dados na tabela "turmas"
-    $query = "INSERT INTO turmas (nome, totalaulas, faltas, professor, qntalunos, turno) VALUES (:nome, :totalaulas, :faltas :professor, :qntalunos, :turno)";
+    $query = "INSERT INTO turmas (nome, totalaulas, faltas, professor, qntalunos, turno) 
+    VALUES (:nome, :totalaulas, :faltas, :professor, :qntalunos, :turno)";
+
     
     // Prepara a consulta
     $stmt = $con->prepare($query);

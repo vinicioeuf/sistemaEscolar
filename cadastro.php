@@ -51,11 +51,12 @@
         $query = $con->query($t);
     ?>
     <select name="turma" id="" required>
-        <option value="none" selected disabled>Escolher turma</option>
-        <?php while($turma = $query->fetch(PDO::FETCH_ASSOC)){?>
-        <option value="<?php echo $turma["nome"]; ?>"><?php echo $turma["nome"]; ?></option>
-        <?php }?>
-    </select>
+    <option value="none" selected disabled>Escolher turma</option>
+    <?php while($turma = $query->fetch(PDO::FETCH_ASSOC)){ ?>
+    <option value="<?php echo $turma["id"]; ?>"><?php echo $turma["nome"]; ?></option>
+    <?php } ?>
+</select>
+
     <br>
     <label for="Idade">Idade:</label>
     <input type="number" name="idade" id="" required>

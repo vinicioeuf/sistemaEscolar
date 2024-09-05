@@ -22,6 +22,7 @@ try {
         $email = addslashes($_POST['email']);
         $nMatricula = addslashes($_POST['nMatricula']);
         $ingresso = addslashes($_POST['ingresso']);
+        $turma_id = addslashes($_POST['turma']);
         $turma = addslashes($_POST['turma']);
         $idade = addslashes($_POST['idade']);
         $credencial = 0;
@@ -29,6 +30,17 @@ try {
         $cpf = addslashes($_POST['cpf']);
         $senha = addslashes($_POST['senha']);
         $senhaSafe = password_hash($senha, PASSWORD_DEFAULT);
+        $turma_id = addslashes($_POST['turma']);
+
+// Buscar o nome da turma com base no id
+        $query_turma = "SELECT nome FROM turmas WHERE id = :id";
+        $stmt_turma = $con->prepare($query_turma);
+        $stmt_turma->bindParam(':id', $turma_id);
+        $stmt_turma->execute();
+
+        // Pegar o nome da turma do resultado da consulta
+        $turma = $stmt_turma->fetchColumn();
+
         // Verifica se não houve erro no upload
         if ($imagem['error'] == UPLOAD_ERR_OK) {
             // Move o arquivo para a pasta desejada
@@ -60,14 +72,15 @@ try {
                 $caminhoArquivo = $response['secure_url'];
 
                 // Insere o produto no banco de dados
-                $query = "INSERT INTO alunos (nome, email, num_matricula, cpf, data_ingresso, turma, idade, foto, credencial, senha) 
-                        VALUES (:nome, :email, :num_matricula, :cpf, :data_ingresso, :turma, :idade, :foto, :credencial, :senha)";
+                $query = "INSERT INTO alunos (nome, email, num_matricula, cpf, data_ingresso, turma_id, turma, idade, foto, credencial, senha) 
+                        VALUES (:nome, :email, :num_matricula, :cpf, :data_ingresso, :turma_id, :turma, :idade, :foto, :credencial, :senha)";
                 $stmt = $con->prepare($query);
                 $stmt->bindParam(':nome', $nome);
                 $stmt->bindParam(':email', $email);
                 $stmt->bindParam(':num_matricula', $nMatricula);
                 $stmt->bindParam(':cpf', $cpf);
                 $stmt->bindParam(':data_ingresso', $ingresso);
+                $stmt->bindParam(':turma_id', $turma_id);
                 $stmt->bindParam(':turma', $turma);
                 $stmt->bindParam(':idade', $idade);
                 $stmt->bindParam(':foto', $caminhoArquivo);
@@ -84,6 +97,6 @@ try {
     header('Location: index.php');
     exit();
 } catch (PDOException $e) {
-    echo 'Erro ao conectar com o banco de dados: ' . $e->getMessage();
+    echo 'Erro ao conectar com o banco de dados: ';
 }
 ?>
