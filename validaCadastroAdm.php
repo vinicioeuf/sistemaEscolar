@@ -77,7 +77,7 @@ try {
 
         }
     }
-    header('Location: admnistradores.php');
+    header('Location: administradores.php');
     exit();
 } catch (PDOException $e) {
     echo 'Erro ao conectar com o banco de dados: ' . $e->getMessage();
