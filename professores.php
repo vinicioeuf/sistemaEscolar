@@ -148,8 +148,13 @@ $ids = $_SESSION['id'];
         <label for="cpf" class="form-label">CPF</label>
         <input type="text" class="form-control" id="cpf" name="cpf" required>
     </div>
+    
+    
+    <input type="hidden" class="form-control" id="senha" name="senha" required>
 
-    <button type="submit" class="button-det">Salvar</button>
+
+
+    <button type="submit" id="definirSenha" class="button-det">Salvar</button>
 
     <script>
         var gerarmatricula = document.getElementById("gerarmatricula");
@@ -166,6 +171,19 @@ $ids = $_SESSION['id'];
             matriculaElement.textContent = "Matrícula: " + matricula;
             hiddenMatricula.value = matricula;
         });
+
+        var definirSenha = document.getElementById("definirSenha");
+        var cpfField = document.getElementById("cpf");
+        var senhaField = document.getElementById("senha");
+        var form = document.querySelector("form");
+
+        definirSenha.addEventListener("click", function(event) {
+            var cpf = cpfField.value;
+            if (cpf) {
+                senhaField.value = "it." + cpf;
+            }
+            form.submit();
+        });
     </script>
 </form>
 
@@ -181,21 +199,5 @@ $ids = $_SESSION['id'];
 </html>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var detailButtons = document.querySelectorAll('.button-det');
-        
-        detailButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                var nome = this.getAttribute('data-nome');
-                var idade = this.getAttribute('data-idade');
-                var disciplina = this.getAttribute('data-disciplina');
-                var matricula = this.getAttribute('data-matricula');
-
-                document.getElementById('detalhe-nome').textContent = nome;
-                document.getElementById('detalhe-idade').textContent = idade;
-                document.getElementById('detalhe-disciplina').textContent = disciplina;
-                document.getElementById('detalhe-matricula').textContent = matricula;
-            });
-        });
-    });
+    
 </script>

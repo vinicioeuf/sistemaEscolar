@@ -18,12 +18,12 @@
             <i id="menuBtn" class="bi bi-list menu-btn"></i>
             <img class="imgLogo" src="images/logo.png" alt="">
         </div>
-        <a href="aluno.php">
+        
         <div class="main-profile">
             <img src="<?php echo $_SESSION['foto']?>" alt="">
-            <h6><?php echo $_SESSION['nome'];?></h6>
+            <h3><?php echo $_SESSION['nome'], $_SESSION['id'];?></h3>
         </div>
-        </a>
+        
     </header>
 
     <aside id="sidebar" class="sidebar">

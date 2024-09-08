@@ -22,16 +22,27 @@ try {
     $aluno_ref = !empty($_POST['aluno_ref']) ? addslashes($_POST['aluno_ref']) : null;
     $faltas = !empty($_POST['faltas']) ? addslashes($_POST['faltas']) : null;
     
-    // Cria a consulta SQL para inserir os dados na tabela "notas"
-    $query = "INSERT INTO notas (turma_ref, disciplina, b1, b2, b3, b4, r1, r2, r3, r4, final, media_final, situacao, aluno_ref) 
-              VALUES (:turma_ref, :disciplina, :b1, :b2, :b3, :b4, :r1, :r2, :r3, :r4, :final, :media_final, :situacao, :aluno_ref)";
+    // Cria a consulta SQL para atualizar os dados na tabela "notas"
+    $query = "UPDATE notas 
+              SET turma_ref = :turma_ref,  
+                  b1 = :b1, 
+                  b2 = :b2, 
+                  b3 = :b3, 
+                  b4 = :b4, 
+                  r1 = :r1, 
+                  r2 = :r2, 
+                  r3 = :r3, 
+                  r4 = :r4, 
+                  final = :final, 
+                  media_final = :media_final, 
+                  situacao = :situacao
+              WHERE aluno_ref = :aluno_ref AND disciplina = :disciplina";
     
     // Prepara a consulta
     $stmt = $con->prepare($query);
     
     // Vincula os parâmetros da consulta aos valores coletados do formulário
     $stmt->bindParam(':turma_ref', $turma_ref);
-    
     $stmt->bindParam(':disciplina', $disciplina);
     $stmt->bindParam(':b1', $b1);
     $stmt->bindParam(':b2', $b2);
@@ -49,10 +60,10 @@ try {
     // Executa a consulta
     $stmt->execute();
     
-    // Exibe uma mensagem de sucesso
-    echo "Nota lançada com sucesso!";
-
-    header("Location: boletim.php");
+    
+    // Redireciona de volta para a página anterior
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+    exit;
 } catch (PDOException $e) {
     // Exibe uma mensagem de erro se a execução falhar
     echo 'Erro: ' . $e->getMessage();
