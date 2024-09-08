@@ -1,7 +1,7 @@
 <?php
 require "conexao.php";
 $con = Conexao::getInstance();
-$turmaref = "2º Ano, A";
+$turmaref = $_GET['id'];
     $sql = "SELECT * FROM alunos WHERE turma= '$turmaref' ";
     $busca = $con->query($sql);
     
@@ -103,11 +103,6 @@ $turmaref = "2º Ano, A";
                     <option value="Aprovado">Aprovado</option>
                     <option value="Reprovado">Reprovado</option>
                 </select>
-            </div>
-
-            <div class="mb-2">
-                <label for="faltas" class="form-label">Faltas:</label>
-                <input type="number" name="faltas" id="faltas" class="form-control">
             </div>
 
             <div class="d-grid">

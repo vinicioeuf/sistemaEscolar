@@ -112,8 +112,8 @@ $ids = $_SESSION['id'];
         <select class="form-select" id="disciplina" name="disciplina" required>
             <option value="Lingua Portuguesa">Língua Portuguesa</option>
             <option value="Matematica">Matemática</option>
-            <option value="Historia">História</option>
-            <option value="Educacao Fisica">Educação Física</option>
+            <option value="História">História</option>
+            <option value="espanhol">Espanhol</option>
         </select>
     </div>
 

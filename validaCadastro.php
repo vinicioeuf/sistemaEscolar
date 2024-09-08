@@ -91,9 +91,12 @@ try {
                 $stmt->bindParam(':credencial', $credencial);
                 $stmt->bindParam(':senha', $senhaSafe);
 
-                $disciplinas = ['Lingua Portuguesa', 'Matematica', 'Espanhol', 'História'];
-                $contador = 0;
-                while($contador < 2){
+
+                $aprovacao2 = "SELECT nome FROM disciplinas";
+                $results2 = $con->query($aprovacao2);  
+                while ($disciplinas = $results2->fetch(PDO::FETCH_ASSOC)) 
+                { 
+                
                     $query2 = "INSERT INTO notas (turma_ref, disciplina, b1, b2, b3, b4, r1, r2, r3, r4, final, media_final, situacao, aluno_ref) 
                   VALUES (:turma_ref, :disciplina, :b1, :b2, :b3, :b4, :r1, :r2, :r3, :r4, :final, :media_final, :situacao, :aluno_ref)";
     
@@ -102,7 +105,7 @@ try {
     
                     // Bind all parameters as null
                     $stmt2->bindValue(':turma_ref', null, PDO::PARAM_NULL);
-                    $stmt2->bindValue(':disciplina', $disciplinas[$contador] );
+                    $stmt2->bindValue(':disciplina', $disciplinas['nome'] );
                     $stmt2->bindValue(':b1', null, PDO::PARAM_NULL);
                     $stmt2->bindValue(':b2', null, PDO::PARAM_NULL);
                     $stmt2->bindValue(':b3', null, PDO::PARAM_NULL);
