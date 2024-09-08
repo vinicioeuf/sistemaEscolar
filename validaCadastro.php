@@ -2,16 +2,20 @@
 
 include "conexao.php";
 include "vendor/autoload.php";
+
 use Cloudinary\Configuration\Configuration;
 use Cloudinary\Api\Upload\UploadApi;
 
 Configuration::instance([
     'cloud' => [
-      'cloud_name' => 'dz72cg2eq', 
-      'api_key' => '754459251157767', 
-      'api_secret' => 'hk-nUc2tBVp43LoKz4A7USOzk4o'],
+        'cloud_name' => 'dz72cg2eq',
+        'api_key' => '754459251157767',
+        'api_secret' => 'hk-nUc2tBVp43LoKz4A7USOzk4o'
+    ],
     'url' => [
-      'secure' => true]]);
+        'secure' => true
+    ]
+]);
 
 try {
     $con = Conexao::getInstance();
@@ -32,7 +36,7 @@ try {
         $senhaSafe = password_hash($senha, PASSWORD_DEFAULT);
         $turma_id = addslashes($_POST['turma']);
 
-// Buscar o nome da turma com base no id
+        // Buscar o nome da turma com base no id
         $query_turma = "SELECT nome FROM turmas WHERE id = :id";
         $stmt_turma = $con->prepare($query_turma);
         $stmt_turma->bindParam(':id', $turma_id);
@@ -52,7 +56,7 @@ try {
 
             // Verifica se a extensão é jpg ou png
             if ($extensao == 'jpg' || $extensao == 'jpeg' || $extensao == 'png') {
-                
+
                 // Define o novo nome do arquivo
                 $novoNomeArquivo = uniqid() . '.' . $extensao;
                 $caminhoArquivo = 'perfil/' . $novoNomeArquivo;
@@ -68,7 +72,7 @@ try {
                     "public_id" => $nome,
                     "max_file_size" => 5000000
                 ]);
-                
+
                 $caminhoArquivo = $response['secure_url'];
 
                 // Insere o produto no banco de dados
@@ -87,11 +91,41 @@ try {
                 $stmt->bindParam(':credencial', $credencial);
                 $stmt->bindParam(':senha', $senhaSafe);
 
+                $disciplinas = ['Lingua Portuguesa', 'Matematica', 'Espanhol', 'História'];
+                $contador = 0;
+                while($contador < 2){
+                    $query2 = "INSERT INTO notas (turma_ref, disciplina, b1, b2, b3, b4, r1, r2, r3, r4, final, media_final, situacao, aluno_ref) 
+                  VALUES (:turma_ref, :disciplina, :b1, :b2, :b3, :b4, :r1, :r2, :r3, :r4, :final, :media_final, :situacao, :aluno_ref)";
+    
+                    // Prepare the query
+                    $stmt2 = $con->prepare($query2);
+    
+                    // Bind all parameters as null
+                    $stmt2->bindValue(':turma_ref', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':disciplina', $disciplinas[$contador] );
+                    $stmt2->bindValue(':b1', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':b2', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':b3', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':b4', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':r1', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':r2', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':r3', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':r4', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':final', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':media_final', null, PDO::PARAM_NULL);
+                    $stmt2->bindValue(':situacao', "Em andamento");
+                    $stmt2->bindValue(':aluno_ref', $nMatricula);
+    
+                    // Execute the query
+                    $stmt2->execute();
+                    $contador++;
+                }
+
+
                 $stmt->execute();
             } else {
                 echo 'Somente arquivos JPG e PNG são permitidos.';
             }
-
         }
     }
     header('Location: cadastro.php');
@@ -99,4 +133,3 @@ try {
 } catch (PDOException $e) {
     echo 'Erro ao conectar com o banco de dados: ';
 }
-?>

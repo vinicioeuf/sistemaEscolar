@@ -1,7 +1,7 @@
 <?php
 require "conexao.php";
 $con = Conexao::getInstance();
-$turmaref = "4ª Ano, D";
+$turmaref = "2º Ano, A";
     $sql = "SELECT * FROM alunos WHERE turma= '$turmaref' ";
     $busca = $con->query($sql);
     
@@ -30,7 +30,7 @@ $turmaref = "4ª Ano, D";
                 <select name="aluno_ref" id="aluno_ref" class="form-select">
                     <option value="none" disabled selected>Selecione o aluno</option>
                     <?php while ($infor = $busca->fetch(PDO::FETCH_ASSOC)) { ?>
-                        <option value="<?php echo $infor["id"]; ?>"><?php echo $infor["nome"] . ", ID: " . $infor["id"]; ?></option>
+                        <option value="<?php echo $infor["num_matricula"]; ?>"><?php echo $infor["nome"] . ", ID: " . $infor["id"]; ?></option>
                     <?php } ?>
                 </select>
             </div>

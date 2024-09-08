@@ -6,7 +6,7 @@ require_once("conexao.php");
 
 
     $con = Conexao::getInstance();
-    $prof =  'Carlos';
+    $prof =  'Antonio';
     $sql = "SELECT * FROM turmas WHERE professor = '$prof'";
     $busca = $con->query($sql);
 

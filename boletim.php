@@ -73,7 +73,7 @@ require("conexao.php");
     <?php
         if($_SESSION['credencial'] == 0){
             
-        $aprovacao2 = "SELECT * FROM notas WHERE aluno_ref='".$_SESSION['id']."'";
+        $aprovacao2 = "SELECT * FROM notas WHERE aluno_ref='".$_SESSION['num_matricula']."'";
         $results2 = $con->query($aprovacao2);                                    
         
     ?>
