@@ -94,7 +94,7 @@ try {
 
         }
     }
-    header('Location: index.php');
+    header('Location: cadastro.php');
     exit();
 } catch (PDOException $e) {
     echo 'Erro ao conectar com o banco de dados: ';

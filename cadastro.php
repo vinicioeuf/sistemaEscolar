@@ -1,88 +1,119 @@
 <?php
-    require("conexao.php");
-
-    $con = Conexao::getInstance();
-    $sql = "SELECT * FROM professores";
-    $busca = $con->query($sql);
+session_start();
+require("conexao.php");
+if ((!isset($_SESSION['num_matricula']) == true) and (!isset($_SESSION['senha']) == true)) {
+    unset($_SESSION['num_matricula']);
+    unset($_SESSION['senha']);
+    header("Location: index.php");
+}
+$ids = $_SESSION['id'];
+$logado = $_SESSION['num_matricula'];
+$con = Conexao::getInstance();
 ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<form action="validaCadastro.php" method="post" enctype="multipart/form-data">
-    <label for="Nome">Nome:</label>
-    <input type="text" name="nome" id="" required>
-    <br>
-    <label for="">Gerar número de matrícula:</label>
-    <input type="button" id="gerarmatricula" value="Gerar" required/>
-    <p id="matricula" name="nMatricula"></p>
-    <input type="hidden" name="nMatricula" id="hiddenMatricula" value="">
-    <script>
-        var gerarmatricula = document.getElementById("gerarmatricula");
-        var matriculaElement = document.getElementById("matricula");
-        var hiddenMatricula = document.getElementById("hiddenMatricula");
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITIF: Instituto de Tecnologia e Inovação FuturoTech</title>
+    <link rel="stylesheet" href="styles/professores.css">
+</head>
 
-        gerarmatricula.addEventListener("click", function() {
-            // Prefixo fixo
-            var prefixo = "20242";
-            
-            // Gerar 5 dígitos aleatórios
-            var sufixo = "";
-            for (var i = 0; i < 5; i++) {
-                sufixo += Math.floor(Math.random() * 10); // Gera um dígito aleatório de 0 a 9
-            }
-            
-            // Concatenar prefixo e sufixo para formar a matrícula
-            var matricula = prefixo + sufixo;
-            
-            // Exibir a matrícula gerada
-            matriculaElement.textContent = "Matrícula: " + matricula;
+<body class="bg-light">
+    <?php include_once("main_top.php"); ?>
 
-            // Definir o valor do campo hidden com a matrícula gerada
-            hiddenMatricula.value = matricula;
-        });
-    </script>
-    <br>
-    <label for="Ingresso">Ingresso:</label>
-    <input type="date" name="ingresso" id="" required>
-    <br>
-    <label for="E-mail">E-mail:</label>
-    <input type="text" name="email" id="" required>
-    <br>
-    <?php 
-        $t = "SELECT * FROM turmas";
-        $query = $con->query($t);
-    ?>
-    <select name="turma" id="" required>
-    <option value="none" selected disabled>Escolher turma</option>
-    <?php while($turma = $query->fetch(PDO::FETCH_ASSOC)){ ?>
-    <option value="<?php echo $turma["id"]; ?>"><?php echo $turma["nome"]; ?></option>
-    <?php } ?>
-</select>
+    <div class="main-adm">
+        <h1>Início > Administração > Cadastrar Aluno</h1>
+        <h2>Cadastre um novo aluno</h2>
 
-    <br>
-    <label for="Idade">Idade:</label>
-    <input type="number" name="idade" id="" required>
-    <br>
-    
-    <label for="">Foto:</label>
-    <input type="file" name="imagem" id="" required>
-    <br>
-    <input type="hidden" name="senha" id="senha">
-    <label for="">CPF</label>
-    <input type="text" name="cpf" id="cpf" required>
-    <br>
-    
-    <button type="submit" id="definirSenha" name="submit" class="submit">Matricular Aluno</button>
-    <script>
-        var definirSenha = document.getElementById("definirSenha");
-        var cpfField = document.getElementById("cpf");
-        var senhaField = document.getElementById("senha");
-        var form = document.querySelector("form");
+        <form style="width: 80%; margin-bottom: 30px;" action="validaCadastro.php" method="post" enctype="multipart/form-data" class="border p-4 rounded shadow-sm bg-white">
+            <div class="mb-3">
+                <label for="Nome" class="form-label">Nome:</label>
+                <input type="text" name="nome" id="Nome" class="form-control" required>
+            </div>
 
-        definirSenha.addEventListener("click", function(event) {
-            var cpf = cpfField.value;
-            if (cpf) {
-                senhaField.value = "it." + cpf;
-            }
-            form.submit();
-        });
-    </script>
-</form>
+            <div class="mb-3">
+                <div class="input-group">
+                    <button style=" width: 400px; border-radius: 10px;" type="button" id="gerarmatricula" class="button-det">Gerar número de matrícula</button>
+                    <input type="hidden" name="nMatricula" id="hiddenMatricula">
+                </div>
+                <p id="matricula" class="form-text mt-2"></p>
+            </div>
+
+            <script>
+                var gerarmatricula = document.getElementById("gerarmatricula");
+                var matriculaElement = document.getElementById("matricula");
+                var hiddenMatricula = document.getElementById("hiddenMatricula");
+
+                gerarmatricula.addEventListener("click", function() {
+                    var prefixo = "20242";
+                    var sufixo = "";
+                    for (var i = 0; i < 5; i++) {
+                        sufixo += Math.floor(Math.random() * 10);
+                    }
+                    var matricula = prefixo + sufixo;
+                    matriculaElement.textContent = "Matrícula: " + matricula;
+                    hiddenMatricula.value = matricula;
+                });
+            </script>
+
+            <div class="mb-3">
+                <label for="Ingresso" class="form-label">Ingresso:</label>
+                <input type="date" name="ingresso" id="Ingresso" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="E-mail" class="form-label">E-mail:</label>
+                <input type="email" name="email" id="E-mail" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="Turma" class="form-label">Turma:</label>
+                <select name="turma" id="Turma" class="form-select" required>
+                    <option value="none" selected disabled>Escolher turma</option>
+                    <?php 
+                    $t = "SELECT * FROM turmas";
+                    $query = $con->query($t);
+                    while($turma = $query->fetch(PDO::FETCH_ASSOC)){ ?>
+                        <option value="<?php echo $turma["id"]; ?>"><?php echo $turma["nome"]; ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="Idade" class="form-label">Idade:</label>
+                <input type="number" name="idade" id="Idade" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="Foto" class="form-label">Foto:</label>
+                <input type="file" name="imagem" id="Foto" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="CPF" class="form-label">CPF:</label>
+                <input type="text" name="cpf" id="cpf" class="form-control" required>
+                <input type="hidden" name="senha" id="senha">
+            </div>
+            <button type="submit" id="definirSenha" name="submit" class=" button-det">Matricular</button>
+
+            <script>
+                var definirSenha = document.getElementById("definirSenha");
+                var cpfField = document.getElementById("cpf");
+                var senhaField = document.getElementById("senha");
+                var form = document.querySelector("form");
+
+                definirSenha.addEventListener("click", function(event) {
+                    var cpf = cpfField.value;
+                    if (cpf) {
+                        senhaField.value = "it." + cpf;
+                    }
+                    form.submit();
+                });
+            </script>
+        </form>
+    </div>
+</body>
+
+</html>

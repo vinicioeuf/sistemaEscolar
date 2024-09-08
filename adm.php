@@ -21,7 +21,9 @@
         <div class="adm-actions">
             <a href="professores.php"><button class="button-adm">Professores</button></a>
             <a href="administradores.php"><button class="button-adm">Administradores</button></a>
-            <a href="administradores.php"><button class="button-adm">Turmas</button></a>
+            <a href="turmasAdm.php"><button class="button-adm">Turmas</button></a>
+            <a href="disciplinas.php"><button class="button-adm">Disciplinas</button></a>
+            <a href="cadastro.php"><button class="button-adm">Alunos</button></a>
         </div>
     </div>
     
