@@ -20,20 +20,8 @@
         </div>
         <a href="aluno.php">
         <div class="main-profile">
-            <?php
-                if($_SESSION['credencial'] == 0){
-                    $t = "SELECT nome, foto FROM alunos WHERE id='".$_SESSION['id']."'";
-                    $s = $con->query($t);                                    
-                    $g = $s->fetch(PDO::FETCH_ASSOC);
-                }else{
-                    $t = "SELECT nome, foto FROM professores WHERE id='".$_SESSION['id']."'";
-                    $s = $con->query($t);                                    
-                    $g = $s->fetch(PDO::FETCH_ASSOC);
-                }
-                
-            ?>
-            <img src="<?php echo $g["foto"];?>" alt="">
-            <h6><?php echo $g["nome"];?>, 3º A</h6>
+            <img src="<?php echo $_SESSION['foto']?>" alt="">
+            <h6><?php echo $_SESSION['nome'];?></h6>
         </div>
         </a>
     </header>
@@ -41,11 +29,15 @@
     <aside id="sidebar" class="sidebar">
         <ul>
             <li><a href="home.php"><i class="bi bi-house-door-fill"></i><span class="text">Início</span><i class="bi bi-arrow-right-short text"></i></a></li>
+            <?php
+                if($_SESSION['credencial'] == 0){?>
             <li><a href="aluno.php"><i class="bi bi-person-circle"></i><span class="text">Aluno</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="boletim.php"><i class="bi bi-journal-text"></i><span class="text">Meu boletim</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="faltas.php"><i class="bi bi-exclamation-circle"></i><span class="text">Minhas Faltas</span><i class="bi bi-arrow-right-short text"></i></a></li>
+            <?php }else{?>
+                <?php }?>
             <?php
-                if($_SESSION['credencial'] != 0){?>
+                if($_SESSION['credencial'] == 1){?>
             <li><a href="turmas.php"><i class="bi bi-kanban"></i><span class="text">Minhas Turmas</span><i class="bi bi-arrow-right-short text"></i></a></li>
                     <?php }else{?>
                         <?php }?>
@@ -55,22 +47,8 @@
             <?php }else{?>
                 <?php }?> 
                 
-                <form action="" method="post">
-                    <button type="submit" name="submit">
-                    <i class="bi bi-box-arrow-right"></i>
-                    </button>
-                </form>
-
-                <?php 
-
-                if(isset($_POST['submit'])){
-                    session_destroy(); 
-                    header("Location: index.php");
-                    exit; 
-                }
-
-                ?>
-            <!-- <li><a href="index.html"><i class="bi bi-box-arrow-right"></i><span class="text">Sair</span><i class="bi bi-arrow-right-short text"></i></a></li> -->
+               
+            <li><a href="logout.php"><i class="bi bi-box-arrow-right"></i><span class="text">Sair</span><i class="bi bi-arrow-right-short text"></i></a></li>
 
         </ul>
     </aside>

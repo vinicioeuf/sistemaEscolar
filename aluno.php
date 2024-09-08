@@ -73,7 +73,7 @@ if($stmtProfessor->rowCount() > 0) {
             <div class="aluno-info">
                 <ul>
                     <li><strong>Nome Completo: </strong><span><?php echo $usuario['nome']; ?></span></li>
-                    <li><strong>Turma: </strong><span><?php echo $usuario['disciplina']; ?></span></li>
+                    <li><strong>Turma: </strong><span><?php echo $usuario['turma']; ?></span></li>
                     <li><strong>Idade: </strong><span><?php echo $usuario['idade']; ?></span></li>
                     <li><strong>Nº Matrícula: </strong><span><?php echo $usuario['num_matricula']; ?></span></li>
                     <li><strong>E-mail: </strong><span><?php echo $usuario['email']; ?></span></li>
@@ -82,7 +82,7 @@ if($stmtProfessor->rowCount() > 0) {
             </div>
         </div>
         <div class="aluno-actions">
-            <a href="boletim.php"><i class="bi bi-journal-text"></i> Boletim</a>
+            <a href="boletim.php"><button><i class="bi bi-journal-text"></i> Boletim</button></a>
         </div>
     </div>
     

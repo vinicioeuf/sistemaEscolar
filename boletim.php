@@ -81,7 +81,6 @@ require("conexao.php");
         <thead>
             <tr>
                 <th>Código</th>
-                <!-- <th>Turma</th> -->
                 <th>Disciplina</th>
                 <th>Situação</th>
                 <th>AV1</th>
@@ -100,7 +99,7 @@ require("conexao.php");
         <?php if ($results2->rowCount() > 0) { ?>
     <?php while ($ver2 = $results2->fetch(PDO::FETCH_ASSOC)) { ?>
         <tr data-code="001">
-            <td data-label="Código"><?php echo isset($ids) ? $ids : '-'; ?></td>
+            <td data-label="Código"><?php echo $_SESSION['id'] ?></td>
             <td data-label="Disciplina"><?php echo isset($ver2['disciplina']) ? $ver2['disciplina'] : '-'; ?></td>
             <td data-label="Situação"><?php echo isset($ver2['situacao']) ? $ver2['situacao'] : '-'; ?></td>
             <td data-label="AV1"><?php echo isset($ver2['b1']) ? $ver2['b1'] : '-'; ?></td>
@@ -115,126 +114,17 @@ require("conexao.php");
             <td data-label="MF"><?php echo isset($ver2['media_final']) ? $ver2['media_final'] : '-'; ?></td>
         </tr>
     <?php } ?>
-<?php } else { ?>
-    <tr data-code="001">
-        <td data-label="Código">-</td>
-        <td data-label="Disciplina">-</td>
-        <td data-label="Situação">-</td>
-        <td data-label="AV1">-</td>
-        <td data-label="R1">-</td>
-        <td data-label="AV2">-</td>
-        <td data-label="R2">-</td>
-        <td data-label="AV3">-</td>
-        <td data-label="R3">-</td>
-        <td data-label="AV4">-</td>
-        <td data-label="R4">-</td>
-        <td data-label="RF">-</td>
-        <td data-label="MF">-</td>
-    </tr>
-<?php } ?>
+<?php } 
+?>
 
 
         </tbody>
     </table>
-<?php }else{
-    $sql = "SELECT * FROM alunos";
-    $stmt = $con->query($sql);
+<?php }
     
     ?>
-    <table>
-        <thead>
-            <tr>
-                <th>Cód. Aluno</th>
-                <th>Nome</th>
-                <th>E-mail</th>
-                <!-- <th>Situação</th> -->
-                <th>Turma</th>
-                <th>Nº Matricula</th>
-                <th>Data de ingresso</th>
-                <th>Idade</th>
-                <th>Ver mais</th>
-            </tr>
-        </thead>
-        <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="userModalLabel">Informações do Aluno</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Código:</strong> <span id="modalCodigo"></span></p>
-                    <p><strong>Nome:</strong> <span id="modalNome"></span></p>
-                    <p><strong>E-mail:</strong> <span id="modalEmail"></span></p>
-                    
-                    <p><strong>Turma:</strong> <span id="modalTurma"></span></p>
-                    <p><strong>Nº Matricula:</strong> <span id="modalMatricula"></span></p>
-                    <p><strong>Data de Ingresso:</strong> <span id="modalDataIngresso"></span></p>
-                    <p><strong>Idade:</strong> <span id="modalIdade"></span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-        <tbody>
-        <?php
-            while ($dados = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            ?>
-            <tr data-code="<?php echo $dados['id']; ?>">
-                <td data-label="Código"><?php echo "00" + $dados['id']; ?></td>
-                <td data-label="Nome"><?php echo $dados['nome']; ?></td>
-                <td data-label="E-mail"><?php echo $dados['email']; ?></td>
-                
-                <td data-label="Turma"><?php echo $dados['turma']; ?></td>
-                <td data-label="Nº Matricula"><?php echo $dados['num_matricula']; ?></td>
-                <td data-label="Data de ingresso"><?php echo $dados['data_ingresso']; ?></td>
-                <td data-label="Idade"><?php echo $dados['idade']; ?></td>
-                <td data-label="Ver mais">
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#verificar<?php echo $dados['id'];?>" data-bs-whatever="<?php echo $dados['nome'];?>">
-                    <i class="bi bi-search"></i>
-                </button>
-                <div class="modal fade" id="verificar<?php echo $dados['id'];?>" tabindex="-1" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="TituloModalCentralizado"><?php echo "Aluno: ".$dados['nome'];?></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            
-                            <div class="modal-body">
-                            <?php 
-                                $aprovacao = "SELECT * FROM notas WHERE aluno_ref='".$dados['id']."'";
-                                $results = $con->query($aprovacao);                                    
-                                
-                                ?>
-                                <img src="<?php echo isset($dados['foto']) ? $dados['foto'] : 'default.png'; ?>" alt="" style="width: 300px; height: 300px;">
-                                <?php 
-                                while ($ver = $results->fetch(PDO::FETCH_ASSOC)){
-
-                                
-                                echo "<br>Turma: ". (isset($dados['turma']) ? $dados['turma'] : '-');
-                                echo "<br>Disciplina: ". (isset($ver['disciplina']) ? $ver['disciplina'] : '-');
-                                echo "<br>Nota 1: " . (isset($ver['b1']) ? $ver['b1'] : '-');
-                                echo "<br>Nota 2: " . (isset($ver['b2']) ? $ver['b2'] : '-');
-                                echo "<br>Nota 3: " . (isset($ver['b3']) ? $ver['b3'] : '-');
-                                echo "<br>Nota 4: " . (isset($ver['b4']) ? $ver['b4'] : '-');
-                                echo "<br>Recuperação 1: " . (isset($ver['r1']) ? $ver['r1'] : '-');
-                                echo "<br>Recuperação 2: " . (isset($ver['r2']) ? $ver['r2'] : '-');
-                                echo "<br>Recuperação 3: " . (isset($ver['r3']) ? $ver['r3'] : '-');
-                                echo "<br>Recuperação 4: " . (isset($ver['r4']) ? $ver['r4'] : '-');
-                                echo "<br>Recuperação Final: " . (isset($ver['final']) ? $ver['final'] : '-');
-                                echo "<br>Média final: " . (isset($ver['media_final']) ? $ver['media_final'] : '-');
-                                echo "<br>Situação: " . (isset($ver['situacao']) ? $ver['situacao'] : '-');
-                                echo "<hr>";
-                            }?>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
+    
+        
                 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
                 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta2/js/bootstrap.min.js"></script>
 
@@ -243,7 +133,7 @@ require("conexao.php");
 
         </tbody>
     </table>
-    <?php }}?>
+    
     <script src="scripts/boletim.js"></script>
 </body>
 

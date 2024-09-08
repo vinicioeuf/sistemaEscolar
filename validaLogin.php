@@ -9,8 +9,13 @@ $num_matricula = $_POST['num_matricula'];
 $senha = addslashes($_POST['senha']);
 
 try {
-    // Prepare a consulta para buscar o usuário pelo número de matrícula
-    $sql = "SELECT id, credencial, senha FROM professores WHERE num_matricula = :num_matricula";
+    // Prepare uma consulta para buscar o usuário nas tabelas correspondentes
+    $sql = "SELECT id, credencial, senha, nome, foto FROM professores WHERE num_matricula = :num_matricula
+            UNION
+            SELECT id, credencial, senha, nome, foto FROM alunos WHERE num_matricula = :num_matricula
+            UNION
+            SELECT id, credencial, senha, nome, foto FROM adms WHERE num_matricula = :num_matricula";
+    
     $stmt = $con->prepare($sql);
     
     // Bind do parâmetro
@@ -31,48 +36,17 @@ try {
             $_SESSION['credencial'] = $user['credencial'];
             $_SESSION['num_matricula'] = $num_matricula;
             $_SESSION['nome'] = $user['nome'];
-            // Redirecione para a página boletim.php
-            header("Location: boletim.php");
+            $_SESSION['foto'] = $user['foto'];
+            // Redirecione para a página home.php
+            header("Location: home.php");
             exit();
         } else {
             // Senha incorreta
             echo "Senha incorreta.";
         }
     } else {
-        // Usuário não encontrado na tabela professores
-        echo "Usuário não encontrado na tabela professores.";
-        
-        // Consulta à tabela alunos
-        $sql2 = "SELECT id, credencial, senha FROM alunos WHERE num_matricula = :num_matricula";
-        $stmt2 = $con->prepare($sql2);
-        
-        // Bind do parâmetro
-        $stmt2->bindParam(':num_matricula', $num_matricula, PDO::PARAM_STR);
-        
-        // Execute a consulta
-        $stmt2->execute();
-        if ($stmt2->rowCount() > 0) {
-            // Usuário encontrado
-            $user2 = $stmt2->fetch(PDO::FETCH_ASSOC);
-            
-            // Verifique a senha
-            if (password_verify($senha, $user2['senha'])) {
-                // Senha correta, armazene as informações na sessão
-                $_SESSION['id'] = $user2['id'];
-                $_SESSION['credencial'] = $user2['credencial'];
-                $_SESSION['num_matricula'] = $num_matricula;
-                $_SESSION['nome'] = $user2['nome'];
-                // Redirecione para a página boletim.php
-                header("Location: boletim.php");
-                
-                exit();
-            } else {
-                // Senha incorreta
-                echo "Senha incorreta.";
-            }
-        } else {
-            echo "<br>Usuário não encontrado na tabela alunos.";
-        }
+        // Nenhum usuário encontrado
+        echo "Número de matrícula não encontrado.";
     }
 } catch (PDOException $e) {
     // Exiba erro em caso de falha na conexão ou consulta
