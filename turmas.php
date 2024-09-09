@@ -1,9 +1,10 @@
 <?php
-
+session_start();
 require_once("conexao.php");
 
     $con = Conexao::getInstance();
     $prof =  $_SESSION['nome'];
+    
     $sql = "SELECT * FROM turmas WHERE professor = '".$prof."'";
     $busca = $con->query($sql);
 
@@ -47,3 +48,5 @@ require_once("conexao.php");
 </body>
 
 </html>
+
+
