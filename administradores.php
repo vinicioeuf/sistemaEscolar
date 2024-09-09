@@ -54,7 +54,7 @@ $ids = $_SESSION['id'];
                     <ul>
                         <li><span>Nome Completo:</span><span><?php echo $p["nome"]?></span></li>
                         <li><span>Idade:</span><span><?php echo $p["idade"]?></span></li>
-                        <li><span>CPF:</span><span></span><?php echo $p["cpf"]?></li>
+                        <li><span>E-mail:</span><span></span><?php echo $p["email"]?></li>
 
                     </ul>
                 </div>
@@ -86,11 +86,11 @@ $ids = $_SESSION['id'];
                 <div class="modal-body">
                     <form method="POST" action="validaCadastroAdm.php" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="nome" class="form-label">Nome Completo</label>
+                            <label for="nome" class="form-label">Nome</label>
                             <input type="text" class="form-control" id="nome" name="nome" required>
                         </div>
                         <label for="">Gerar número da matrícula desse professor:</label>
-                        <input type="button" id="gerarmatricula" value="Gerar" required />
+                        <input type="button" id="gerarmatricula" class="button-det" value="Gerar" required />
                         <p id="matricula" name="nMatricula"></p>
                         <input type="hidden" name="nMatricula" id="hiddenMatricula" value="">
                         <script>

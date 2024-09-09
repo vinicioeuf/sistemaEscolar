@@ -30,7 +30,7 @@ require_once("conexao.php");
     <?php include_once("main_top.php"); ?>
 
     <div class="main-turmas">
-    <h1>Início > Minhas Turmas > <?php echo $_SESSION['nome']?></h1>
+    <h1>Início > Minhas Turmas</h1>
     <div class="div-turmas">
         <?php while ($turma = $busca->fetch(PDO::FETCH_ASSOC)) { ?>
             <div class="turma-exemple">

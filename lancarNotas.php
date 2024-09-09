@@ -21,7 +21,7 @@ $turmaref = $_GET['id'];
     <?php include_once("main_top.php"); ?>
 
     <div class="main-adm">
-        <h1>Início > Administração </h1>
+        <h1>Início > Minhas Turmas > Alunos </h1>
         <h2>Altere as notas dos alunos da turma</h2>
 
         <form style="width: 400px;" action="validaNota.php" method="post">
@@ -38,10 +38,14 @@ $turmaref = $_GET['id'];
             <div class="mb-2">
                 <label for="disciplina" class="form-label">Disciplina:</label>
                 <select name="disciplina" id="disciplina" class="form-select">
-                    <option value="Lingua Portuguesa">Língua Portuguesa</option>
-                    <option value="Matematica">Matemática</option>
-                    <option value="Historia">História</option>
-                    <option value="Educacao Fisica">Educação Física</option>
+                <?php
+                $sqlDisc = "SELECT * FROM disciplinas";
+                $buscaDisc = $con->query($sqlDisc);
+                while ($i = $buscaDisc->fetch(PDO::FETCH_ASSOC)) {?>
+
+                    <option value="<?php echo $i['nome']?>"><?php echo $i['nome']?></option>
+                <?php } ?>
+                    
                 </select>
             </div>
 
@@ -92,7 +96,7 @@ $turmaref = $_GET['id'];
 
             <div class="mb-2">
                 <label for="media_final" class="form-label">Média final:</label>
-                <input type="text" name="media_final" id="media_final" class="form-control">
+                <input type="text" name="media_final" disabled id="media_final" class="form-control">
             </div>
 
             <div class="mb-2">
@@ -129,9 +133,9 @@ document.getElementById('aluno_ref').addEventListener('change', function() {
                 document.getElementById('r3').value = data.r3 || '';
                 document.getElementById('r4').value = data.r4 || '';
                 document.getElementById('final').value = data.final || '';
-                document.getElementById('media_final').value = data.media_final || '';
                 document.getElementById('situacao').value = data.situacao || '';
                 document.getElementById('faltas').value = data.faltas || '';
+                calcularMediaFinal(); // Calcula a média final após carregar os dados
             })
             .catch(error => console.error('Erro:', error));
     }
@@ -155,13 +159,58 @@ document.getElementById('disciplina').addEventListener('change', function() {
                 document.getElementById('r3').value = data.r3 || '';
                 document.getElementById('r4').value = data.r4 || '';
                 document.getElementById('final').value = data.final || '';
-                document.getElementById('media_final').value = data.media_final || '';
                 document.getElementById('situacao').value = data.situacao || '';
                 document.getElementById('faltas').value = data.faltas || '';
+                calcularMediaFinal(); // Calcula a média final após carregar os dados
             })
             .catch(error => console.error('Erro:', error));
     }
 });
+
+// Função para calcular a média final e aplicar as regras de bloqueio/desbloqueio
+function calcularMediaFinal() {
+    const b1 = parseFloat(document.getElementById('b1').value) || 0;
+    const b2 = parseFloat(document.getElementById('b2').value) || 0;
+    const b3 = parseFloat(document.getElementById('b3').value) || 0;
+    const b4 = parseFloat(document.getElementById('b4').value) || 0;
+    const r1 = parseFloat(document.getElementById('r1').value) || 0;
+    const r2 = parseFloat(document.getElementById('r2').value) || 0;
+    const r3 = parseFloat(document.getElementById('r3').value) || 0;
+    const r4 = parseFloat(document.getElementById('r4').value) || 0;
+    const finalRecuperacao = parseFloat(document.getElementById('final').value) || 0;
+
+    // Calcula a nota a ser considerada em cada bimestre
+    const nota1 = b1 >= 6 ? b1 : Math.max(b1, r1);
+    const nota2 = b2 >= 6 ? b2 : Math.max(b2, r2);
+    const nota3 = b3 >= 6 ? b3 : Math.max(b3, r3);
+    const nota4 = b4 >= 6 ? b4 : Math.max(b4, r4);
+
+    // Calcula a média final
+    let mediaFinal = (nota1 + nota2 + nota3 + nota4) / 4;
+
+    // Se o valor do input final de recuperação estiver preenchido, substitui a média final
+    if (finalRecuperacao > 0) {
+        mediaFinal = finalRecuperacao;
+    }
+
+    // Atualiza o input da média final (sempre bloqueado)
+    document.getElementById('media_final').value = mediaFinal.toFixed(2);
+
+    // Bloqueia ou desbloqueia os inputs de recuperação conforme as notas
+    document.getElementById('r1').disabled = b1 >= 6;
+    document.getElementById('r2').disabled = b2 >= 6;
+    document.getElementById('r3').disabled = b3 >= 6;
+    document.getElementById('r4').disabled = b4 >= 6;
+
+    // Desbloqueia o input da recuperação final se a média for menor que 6
+    document.getElementById('final').disabled = mediaFinal >= 6;
+}
+
+// Monitora mudanças nas notas para recalcular a média
+document.querySelectorAll('#b1, #b2, #b3, #b4, #r1, #r2, #r3, #r4, #final').forEach(input => {
+    input.addEventListener('input', calcularMediaFinal);
+});
+
 </script>
 
     </div>

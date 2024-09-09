@@ -36,14 +36,7 @@ require("conexao.php");
         <div class="main-actions">
             <div class="main-selecters">
 
-                <div>
-                    <label for="ano-select">Ano:</label>
-                    <select id="ano-select">
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                        <option value="2022">2022</option>
-                    </select>
-                </div>
+                
 
                 <div id="selectors">
                     <label for="discipline-select">Disciplina:</label>
@@ -56,14 +49,7 @@ require("conexao.php");
 
             </div>
 
-            <div class="main-avisos">
-
-                <div class="aviso">
-                    <i class="bi bi-exclamation-triangle"></i>
-                    <span>Verifique a porcentagem de faltas em cada disciplina. Caso obtiver frequência menor que 75%, está automaticamente <strong>REPROVADO </strong></span>
-                </div>
-
-            </div>
+            
 
         </div>
 
@@ -99,7 +85,7 @@ require("conexao.php");
         <?php if ($results2->rowCount() > 0) { ?>
     <?php while ($ver2 = $results2->fetch(PDO::FETCH_ASSOC)) { ?>
         <tr data-code="001">
-            <td data-label="Código"><?php echo $_SESSION['id'] ?></td>
+            <td data-label="Código"><?php echo $ver2['id'] ?></td>
             <td data-label="Disciplina"><?php echo isset($ver2['disciplina']) ? $ver2['disciplina'] : '-'; ?></td>
             <td data-label="Situação"><?php echo isset($ver2['situacao']) ? $ver2['situacao'] : '-'; ?></td>
             <td data-label="AV1"><?php echo isset($ver2['b1']) ? $ver2['b1'] : '-'; ?></td>

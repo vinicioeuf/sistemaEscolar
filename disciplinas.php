@@ -35,30 +35,22 @@ $o = $con->query($y);
         <h1>Início > Administração > Disciplinas</h1>
         <button type="button" class=" button-prof" data-bs-toggle="modal" data-bs-target="#exampleModalNovoTurma">Nova Disciplina</button>
         <div class="main-prof">
-            <?php
-            while ($p = $o->fetch(PDO::FETCH_ASSOC)) {
-                $turmaRef = $p['turma_ref'];
-                $z = "SELECT * FROM turmas WHERE id= $turmaRef LIMIT 1";
-                $a = $con->query($z);
-            ?>
-
-                <div class="prof-exemple">
-                    <h1><?php echo $p["nome"] ?></h1>
-                    <h2><?php echo $p["ano"] ?></h2>
-                    <?php
-                    while ($quer = $a->fetch(PDO::FETCH_ASSOC)) {
+        <?php
+                    while ($quer = $o->fetch(PDO::FETCH_ASSOC)) {
                     ?>
+                <div class="prof-exemple">
+                    
                         <h2><?php echo $quer["nome"] ?></h2>
-                    <?php } ?>
+                    
 
                 </div>
+                <?php } ?>
 
-            <?php } ?>
         </div>
 
     </div>
     </div>
-    <!-- Modal Criar Turma -->
+    <!-- Modal Criar Disciplina -->
     <div class="modal fade" id="exampleModalNovoTurma" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -67,38 +59,10 @@ $o = $con->query($y);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <?php
-                    require_once("conexao.php");
-
-                    $sqlProf = "SELECT * FROM turmas";
-                    $buscaTurma = $con->query($sqlProf);
-
-                    ?>
                     <form method="POST" action="validaDisciplina.php" enctype="multipart/form-data">
                         <div class="mb-3">
-                            <label for="turmaRef" class="form-label">Nome:</label>
-                            <select name="turmaRef" class="form-select" id="turmaRef" required>
-                                <option value="" selected disabled>Escolher Turma:</option>
-                                <?php
-                                while ($turma = $buscaTurma->fetch(PDO::FETCH_ASSOC)) {
-                                ?>
-                                    <option value="<?php echo $turma["id"]; ?>"><?php echo $turma["nome"]; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
                             <label for="nome" class="form-label">Nome:</label>
-                            <select name="nome" class="form-select" id="nome" required>
-                                <option value="Língua Portugesa">Língua Portuguesa</option>
-                                <option value="Matemática">Matemática</option>
-                                <option value="Espanhol">Espanhol</option>
-                                <option value="História">História</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="totalAulas" class="form-label">Total de aulas:</label>
-                            <input type="number" class="form-control" id="totalAulas" name="totalAulas" required>
+                            <input type="text" class="form-control" id="nome" name="nome" required>
                         </div>
                         <button type="submit" class="button-det">Salvar</button>
                     </form>

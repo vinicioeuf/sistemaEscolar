@@ -21,7 +21,7 @@
         
         <div class="main-profile">
             <img src="<?php echo $_SESSION['foto']?>" alt="">
-            <h3><?php echo $_SESSION['nome'], $_SESSION['id'];?></h3>
+            <h3><?php echo $_SESSION['nome']?></h3>
         </div>
         
     </header>
@@ -33,7 +33,7 @@
                 if($_SESSION['credencial'] == 0){?>
             <li><a href="aluno.php"><i class="bi bi-person-circle"></i><span class="text">Aluno</span><i class="bi bi-arrow-right-short text"></i></a></li>
             <li><a href="boletim.php"><i class="bi bi-journal-text"></i><span class="text">Meu boletim</span><i class="bi bi-arrow-right-short text"></i></a></li>
-            <li><a href="faltas.php"><i class="bi bi-exclamation-circle"></i><span class="text">Minhas Faltas</span><i class="bi bi-arrow-right-short text"></i></a></li>
+            
             <?php }else{?>
                 <?php }?>
             <?php

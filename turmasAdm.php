@@ -73,7 +73,7 @@ $o = $con->query($y);
                                                 <h5 class="mb-1"><?php echo $aluno['nome']; ?></h5>
                                                 <small class="text-muted"><?php echo $aluno['idade']; ?></small>
                                             </div>
-                                            <a style="color: orangered;" href="lancarNotas.php" class="btn btn-link">Ver Perfil</a>
+                                            
                                         </li>
                                     <?php } ?>
                                 </ul>
@@ -129,10 +129,9 @@ $o = $con->query($y);
                             </select>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="totalAulas" class="form-label">Total de aulas:</label>
-                            <input type="number" class="form-control" id="idade" name="totalAulas" required>
-                        </div>
+                        
+                            <input type="hidden" class="form-control" id="idade" value="400" name="totalAulas" required>
+                        
                         <button type="submit" class="button-det">Salvar</button>
                     </form>
 

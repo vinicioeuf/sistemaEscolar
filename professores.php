@@ -66,7 +66,6 @@ $ids = $_SESSION['id'];
                     <ul>
                         <li><span>Nome Completo:</span> <span><?php echo $p["nome"]; ?></span></li>
                         <li><span>Idade:</span> <span> <?php echo $p["idade"]; ?></span></li>
-                        <li><span>Disciplina:</span> <span ><?php echo $p["disciplina"]; ?></span></li>
                         <li><span>Número de matrícula:</span> <span><?php echo $p["num_matricula"]; ?></span></li>
                     </ul>
                 </div>
@@ -105,16 +104,6 @@ $ids = $_SESSION['id'];
     <div class="mb-3">
         <label for="nome" class="form-label">Nome</label>
         <input type="text" class="form-control" id="nome" name="nome" required>
-    </div>
-
-    <div class="mb-3">
-        <label for="disciplina" class="form-label">Disciplina</label>
-        <select class="form-select" id="disciplina" name="disciplina" required>
-            <option value="Lingua Portuguesa">Língua Portuguesa</option>
-            <option value="Matematica">Matemática</option>
-            <option value="História">História</option>
-            <option value="espanhol">Espanhol</option>
-        </select>
     </div>
 
     <div class="mb-3">
